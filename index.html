@@ -1,34 +1,40 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
     <title>Yasic by sivizius</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-    <meta name="viewport" content="width=device-width">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
+
+    <header>
+      <div class="container">
         <h1>Yasic</h1>
-        <p>a transcompiler for yasic-scripts to flatassembly, written in fasm-macros</p>
+        <h2>a transcompiler for yasic-scripts to flatassembly, written in fasm-macros</h2>
 
-        <p class="view"><a href="https://github.com/sivizius/yasic">View the Project on GitHub <small>sivizius/yasic</small></a></p>
+        <section id="downloads">
+          <a href="https://github.com/sivizius/yasic/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/sivizius/yasic/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/sivizius/yasic" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
 
+    <div class="container">
+      <section id="main_content">
+        <h3>
+<a id="about" class="anchor" href="#about" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>About</h3>
 
-        <ul>
-          <li><a href="https://github.com/sivizius/yasic/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/sivizius/yasic/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/sivizius/yasic">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <p>First of all some terms should be defined:</p>
+<h3>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting started</h3>
+
+<p>First of all some terms should be defined:</p>
 
 <ul>
 <li>»source« or »code«: the code you write in yasic</li>
@@ -75,8 +81,7 @@ The end of a function-call is a <code>;</code> or a newline character, so if you
 Yasic is written in flatassembler so you need to <a href="http://flatassembler.net/download.php">download</a> it, if not already done so far.
 I also provided an <a href="https://github.com/sivizius/yasic/blob/master/sba.sh">shell-script</a>, but you could compile your source with:</p>
 
-<pre><code>fasm -m 64000 "main.fasm" "output.fasm"
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>fasm -m 64000 <span class="pl-s"><span class="pl-pds">"</span>main.fasm<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>output.fasm<span class="pl-pds">"</span></span></pre></div>
 
 <p>But before you compile <code>main.fasm</code>, you need to adjust the name of your source-file in this line of <a href="https://github.com/sivizius/yasic/blob/master/main.fasm"><code>main.fasm</code></a>:</p>
 
@@ -86,56 +91,65 @@ I also provided an <a href="https://github.com/sivizius/yasic/blob/master/sba.sh
 <p>There are also some other options for the compiler in this file:</p>
 
 <ul>
-<li>
-<p>to define the name of the echo-function in output:</p>
-
-<p>yasic.OpEcho          equ 'echo_put'</p>
-</li>
-<li>
-<p>jump here, if the input does not match:</p>
-
-<p>yasic.FailSafe        equ 'fail_safe'</p>
-</li>
-<li>
-<p>call this to get a new character:</p>
-
-<p>yasic.GetChar         equ 'qword [ files.getChar ]'</p>
-</li>
-<li>
-<p>if <code>echo</code> should called like this: <code>echo_put qword [ msg_0000000000000000 ]</code>, set this option</p>
-
-<p>yasic.IndirectString  equ false</p>
-</li>
-<li>
-<p>set the structure of strings (e.g. <code>db</code>):</p>
-
-<p>yasic.Symbol          equ 'symbol'</p>
-</li>
-<li>
-<p>where is the return-value of getChar? (e.g. <code>rax</code>)</p>
-
-<p>yasic.TheChar         equ 'my_char'</p>
-</li>
-<li>
-<p>if this option is true, the output is smaller, but less readable</p>
-
-<p>yasic.MagicNumbers    equ false</p>
-</li>
-<li>
-<p>set the indentation (not the indentation-size!)</p>
-
-<p>yasic.Depth           equ 0</p>
-</li>
+<li>to define the name of the echo-function in output:</li>
 </ul>
+
+<pre><code>yasic.OpEcho          equ 'echo_put'
+</code></pre>
+
+<ul>
+<li>jump here, if the input does not match:</li>
+</ul>
+
+<pre><code>yasic.FailSafe        equ 'fail_safe'
+</code></pre>
+
+<ul>
+<li>call this to get a new character:</li>
+</ul>
+
+<pre><code>yasic.GetChar         equ 'qword [ files.getChar ]'
+</code></pre>
+
+<ul>
+<li>if <code>echo</code> should called like this: <code>echo_put qword [ msg_0000000000000000 ]</code>, set this option</li>
+</ul>
+
+<pre><code>yasic.IndirectString  equ false
+</code></pre>
+
+<ul>
+<li>set the structure of strings (e.g. <code>db</code>):</li>
+</ul>
+
+<pre><code>yasic.Symbol          equ 'symbol'
+</code></pre>
+
+<ul>
+<li>where is the return-value of getChar? (e.g. <code>rax</code>)</li>
+</ul>
+
+<pre><code>yasic.TheChar         equ 'my_char'
+</code></pre>
+
+<ul>
+<li>if this option is true, the output is smaller, but less readable</li>
+</ul>
+
+<pre><code>yasic.MagicNumbers    equ false
+</code></pre>
+
+<ul>
+<li>set the indentation (not the indentation-size!)</li>
+</ul>
+
+<pre><code>yasic.Depth           equ 0
+</code></pre>
 
 <p>.</p>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/sivizius">sivizius</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+
     
   </body>
 </html>
