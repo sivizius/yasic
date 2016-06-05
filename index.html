@@ -16,7 +16,7 @@
     <header>
       <div class="container">
         <h1>Yasic</h1>
-        <h2>a transcompiler for yasic-scripts to flatassembly, written in fasm-macros</h2>
+        <h2>yet another symbolic instruction code - transcompiler to flatassembly, written in fasm-macros</h2>
 
         <section id="downloads">
           <a href="https://github.com/sivizius/yasic/zipball/master" class="btn">Download as .zip</a>
@@ -28,11 +28,23 @@
 
     <div class="container">
       <section id="main_content">
-        <h3>
-<a id="about" class="anchor" href="#about" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>About</h3>
+        <h1>
+<a id="yasic" class="anchor" href="#yasic" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>yasic</h1>
 
-<h3>
-<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting started</h3>
+<p>a transcompiler for yasic-scripts to flatassembly, written in fasm-macros</p>
+
+<h2>
+<a id="about" class="anchor" href="#about" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>About</h2>
+
+<p>Welcome to the yasic wiki!
+yasic is written in the macro-language of <a href="http://flatassembler.net/">flatassembler</a>, so do not worry if it is slowly. This is the nature of interpreted languages :-/</p>
+
+<p>Nevertheless it is awes0me.</p>
+
+<p>I provided an example <a href="https://github.com/sivizius/yasic/blob/master/test.sba">test.sba</a>, but you should have a look to the next chapter.</p>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting started</h2>
 
 <p>First of all some terms should be defined:</p>
 
@@ -147,6 +159,40 @@ I also provided an <a href="https://github.com/sivizius/yasic/blob/master/sba.sh
 </code></pre>
 
 <p>.</p>
+
+<h2>
+<a id="regular-expressions" class="anchor" href="#regular-expressions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Regular Expressions</h2>
+
+<p>Well, the regex I used in yasic are similar to PCRE, but not the same!
+Yasic does not support quantifiers yet, character-classes and ranges are a bit different and groups are only implemented very thin.
+To define a regular expression you just had to write:</p>
+
+<pre><code>'regex' {}
+</code></pre>
+
+<p>Yasic supports the wildcard <code>.</code> for any character and escape sequences for some special characters and even some character-classes with <code>\</code>:</p>
+
+<pre><code>'regex..\.\W\n' {}
+</code></pre>
+
+<p>To compare the input with a class of characters, you just put the name of the class in <code>&lt;</code> and <code>&gt;</code>:</p>
+
+<pre><code>'&lt;alnum&gt;&lt;A&gt;&lt;B&gt;&lt;C&gt;' {}
+</code></pre>
+
+<p>If you just put one character into this brackets, e.g. <code>&lt;A&gt;</code>, the regular expression match <em>a</em> and <em>A</em>, if you do not put them into brackets, the regex is case-sensitive!</p>
+
+<p>To define a range, you have to put the start and the end into <code>[</code> and <code>]</code>:</p>
+
+<pre><code>'[09][AZ|az]' {}
+</code></pre>
+
+<p>This also allows multiple ranges, seperated with <code>|</code>, so this regular expression match <em>1a</em>, <em>9Z</em>, but not <em>a9</em>.
+But note that the characters must be sorted to their ascii values!
+This would match <em>A</em>, <em>Z</em>, but never <em>0</em>:</p>
+
+<pre><code>'[AZ|09]' {}
+</code></pre>
       </section>
     </div>
 
