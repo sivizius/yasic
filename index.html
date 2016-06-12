@@ -87,12 +87,14 @@ The end of a function-call is a <code>;</code> or a newline character, so if you
 Yasic is written in flatassembler so you need to <a href="http://flatassembler.net/download.php">download</a> it, if not already done so far.
 I also provided an <a href="https://github.com/sivizius/yasic/blob/master/sba.sh">shell-script</a>, but you could compile your source with:</p>
 
-<div class="highlight highlight-source-shell"><pre>fasm -m 64000 <span class="pl-s"><span class="pl-pds">"</span>main.fasm<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>output.fasm<span class="pl-pds">"</span></span></pre></div>
+<div class="highlight highlight-source-shell"><pre>fasm -m 128000 <span class="pl-s"><span class="pl-pds">"</span>yasic.fcfg<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>output.fasm<span class="pl-pds">"</span></span></pre></div>
 
-<p>But before you compile <code>main.fasm</code>, you need to adjust the name of your source-file in this line of <a href="https://github.com/sivizius/yasic/blob/master/main.fasm"><code>main.fasm</code></a>:</p>
+<p>But before you compile <code>yasic.fcfg</code>, you need to adjust the name of your source-file in this line of <a href="https://github.com/sivizius/yasic/blob/master/yasic.fcfg"><code>yasic.fcfg</code></a>:</p>
 
 <pre><code>yasic_parse 'source-file.sba'
 </code></pre>
+
+<p>There are some examples in the <em>code</em>-directory.</p>
 
 <p>There are also some other options for the compiler in this file:</p>
 
