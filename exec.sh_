@@ -1,0 +1,17 @@
+#!/bin/bash
+#a=_sivizius
+#b=ascii\n
+#c=2016-02-10_17:21:05_UTC+0100
+#d=2016-08-22_04:35:46_UTC+0200
+#f=/sba/src/yasic/exec.sh
+#l=bash/en
+#p=/sba/doc/licenses/LICENCE.txt
+#t=exec-script for yasic
+#v=0.9.1.0-»Amanita muscaria«
+
+read -p "execute yasic? " yn
+case "$yn" in
+  ""|"y"|"Y"|"j"|"J"|"yes"|"ja")
+    ../build/bin/yalave.elf "../build/bin/yasic.sba" 2>&1 | tee -a "../build/out/yasic.log"
+  ;;
+esac

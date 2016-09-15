@@ -1,0 +1,29 @@
+  ;*page -> strucBuffersPage
+  ;{
+  ;:  0x00 .next                        cq -> strucBuffersPage                  *next_page -> ... -> NULL
+  ;:  0x08 .stop                        cq -> void                              ( *page + page_size )
+  ;:  0x10 .here                        dq -> strucBuffers                      *new_buffer in { [ *page, *page + page_size - 2 ], NULL }
+  ;:  0x18 .last                        dq -> strucBuffers                      *last
+  ;:  0x20 .full                        cw                                      page_size = ( meta_size + used_size + spam_size + free_size )
+  ;:  0x22 .free                        dw                                      free_size
+  ;:  0x24 .used                        dw                                      used_size
+  ;:  0x26 .spam                        dw                                      spam_size
+  ;:  0x28 .                            db[ page_size - meta_size ]             content -> { buffer0, ..., bufferN } -> strucItem
+  ;}
+  ;{
+    _base_                              =                                       ( $ and 0xfffffffffffff000 )
+                                        dq                                      0x0000000000000000
+    addBase0                            dq                                      ( _base_ + _length_ )
+    addBase1                            dq                                      ( _here_ )
+                                        dq                                      0x0000000000000000
+                                        dw                                      ( buffers.lenFull )
+                                        dw                                      ( _base_ + _length_ - _here_ )
+                                        dw                                      ( _here_ - _base_ - buffers.lenMeta )
+                                        dw                                      0x0000
+  ;}
+  _cobj_                                =                                       1
+  xtext 'buffers'
+  xtext 'echo'
+  xtext 'files'
+  xtext 'threads'
+  script                                str                                     'code/yasic.sba', 0

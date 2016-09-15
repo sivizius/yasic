@@ -1,0 +1,19 @@
+  __debug__                             fix                                     true
+  ;__debug__                             fix                                     false
+
+  __tmp2__                              fix                                     r12
+  __tmp3__                              fix                                     r13
+  __tmp4__                              fix                                     r14
+  __tmp5__                              fix                                     r15
+  __tmpA__                              fix                                     rax
+  __tmpB__                              fix                                     rbx
+
+  __yentry__                            fix                                     r14
+
+  __page__                              fix                                     r15
+  __file__                              fix                                     r15
+  xstat 'main'
+  xstat 'buffers'
+  xstat 'echo'
+  xstat 'files'
+  xstat 'on'

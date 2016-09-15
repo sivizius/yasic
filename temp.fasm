@@ -1,0 +1,28 @@
+#resv
+{
+  _vars_                                =                                       \$
+  _alloc_                               =                                       \$
+  buffers.save                          aq                                      1                                       ;save of *list while debug
+  buffers.saveDebug                     aq                                      1                                       ;save of *list while debug
+  buffers.lastPage                      aq                                      1                                       ;last used *page
+  buffers.last                          aq                                      1                                       ;last used *buffer
+  xresv 'echo'
+  xresv 'files'
+  xresv 'time'
+  yasic.depth                           aq                                      1
+  _here_                                =                                       _alloc_
+  _size_                                =                                       ( _here_ - _base_ )
+  _resv_                                =                                       0x8000
+  if ( _resv_ > _size_ )
+    _size_                              =                                       _resv_
+  end if
+  if ( _size_ and 0x0000000000000fff )
+    _size_                              =                                       (( _size_ + 4096 ) and 0xfffffffffffff000 )
+  end if
+  if (( _size_ ) > ( buffers.lenFull ))
+    display                             'error: lenUsed > maxLenFull!'
+  end if
+                                        rb                                      ( _base_ + _size_ - \$ )
+  _length_                              =                                       _size_
+  _objs_                                =                                       _cobj_
+}

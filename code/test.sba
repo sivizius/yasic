@@ -1,0 +1,115 @@
+#!sba:yasic
+
+{
+  macro hello \=world
+  \{
+    display \=world
+  \}
+}
+
+value = 0x1337Cafe
+text = 'hello world!'
+
+echo('[yapla] == Yet Another Programming Language. Again! ==')
+value = 0x1337Cafe
+echo('[yapla] Input File: »/home/sivizius/sba/src0/yapla/yapla.sba«')
+echo('[yapla] parsing file....')
+
+test_case
+{
+  'x[AZ|az]y[09]z' {}
+  'hello world!' {}
+  'howr|u|doing' {}
+  '\e\f\n\s\S\d\D\q\Q\w\W' {}
+  '\e|s\n\t|\r\v|\q' {}
+  '\s|x\sy|\sb|a\s' {}
+  '\S|x\Sy|\Sb|a\S' {}
+  '\d|x\dy|\db|a\d' {}
+  '\D|x\Dy|\Db|a\D' {}
+  '\w|x\wy|\wb|w\d' {}
+  '\W|x\Wy|\Wb|a\W' {}
+  '<A><B><C><D><E>' {}
+  '<newline><delete><return>' {}
+}
+
+#'#!sba:'
+#{
+#  echo('[yapla] its an sba-file \o/')
+#  'yasic\n'
+#  {
+#    echo('[yapla] its yet another instruction code \o/')
+#    jump('yasic')
+#  }
+#  echo('[yapla] unknown language :S!')
+#}
+
+yasic
+{
+  '<space>' { jump('yasic'); }
+  '/'
+  {
+    '/'
+    {
+      call('remark_line')
+      jump('yasic')
+    }
+    '*'
+    {
+      call('remark_c')
+      jump('yasic')
+   }
+  }
+  ';'
+  {
+    call('remark_line')
+    jump('yasic')
+  }
+  '#'
+  {
+    call('remark_line')
+    jump('yasic')
+  }
+  '\q' { jump('regex'); }
+  '<alpha>|_'
+  {
+    #symbols.new(char)
+    jump('definition')
+  }
+  '<any>' { fail(); }
+}
+
+definition
+{
+  '<alpha>'
+  {
+  }
+}
+
+regex
+{
+  '<alnum>|_|\.'
+  {
+    jump('regex')
+  }
+  '\\' { jump('regex_escape'); }
+}
+
+regex_escape
+{
+  '0' { jump('regex'); }
+  'a' { jump('regex'); }
+  'b' { jump('regex'); }
+}
+
+remark_line
+{
+  '<newline>' { return(); }
+  '<any>' { jump('remark_line'); }
+}
+
+remark_c
+{
+  '*/' { return(); }
+  '<any>' { jump('remark_c'); }
+}
+

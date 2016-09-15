@@ -1,0 +1,1084 @@
+== Compile Main ==
+#a=_sivizius
+#b=ascii\n
+#c=2016-02-10_17:21:05
+#d=2016-06-21_00:58:26
+#v=0.9.1.0
+flat assembler  version 1.71.54  (512000 kilobytes memory)
+
+down()
+
+down()
+
+echo( »[yapla] == Yet Another Programming Language. Again! ==« )
+
+echo( »[yapla] Input File: »/home/sivizius/sba/src0/yapla/yapla.sba«« )
+
+echo( »[yapla] parsing file....« )
+»#!sba:«
+{
+  echo( »[yapla] its an sba-file \\o/« )
+  »yasic«..newline
+  {
+    echo( »[yapla] its yet another instruction code \\o/« )
+    call( »yasic« )
+    echo( »[yapla] done« )
+    return()
+  }
+  echo( »[yapla] unknown language :S!« )
+}
+yasic
+{
+  fail()
+  fail( 0x0000000000000020 )
+  null
+  {
+    return()
+  }
+  return()
+  space
+  {
+    jump( »yasic« )
+  }
+  »/«
+  {
+    »/«
+    {
+      call( »remark_line« )
+      jump( »yasic« )
+    }
+    »*«
+    {
+      call( »remark_c« )
+      jump( »yasic« )
+    }
+  }
+  »#«..|..»;«
+  {
+    call( »remark_line« )
+    jump( »yasic« )
+  }
+  »'«
+  {
+    jump( »regex« )
+  }
+  »_«..|alpha
+  {
+    jump( »definition« )
+  }
+}
+definition
+{
+  alpha numerical
+  {
+    jump( »definition« )
+  }
+  space
+  {
+    jump( »definition_wait« )
+  }
+  »(«
+  {
+    jump( »function« )
+  }
+  »=«
+  {
+    jump( »assignment« )
+  }
+  »{«
+  {
+    jump( »block« )
+  }
+}
+definition_wait
+{
+  space
+  {
+    jump( »definition_wait« )
+  }
+  »(«
+  {
+    jump( »function« )
+  }
+  »=«
+  {
+    jump( »assignment« )
+  }
+  »{«
+  {
+    jump( »yasic« )
+  }
+}
+function
+{
+}
+assignment
+{
+}
+block
+{
+}
+regex
+{
+  »\«
+  {
+    jump( »regex_escape« )
+  }
+  »'«
+  {
+    return()
+  }
+}
+regex_escape
+{
+  »0«
+  {
+    jump( »regex« )
+  }
+  »a«
+  {
+    jump( »regex« )
+  }
+  »b«
+  {
+    jump( »regex« )
+  }
+  »d«
+  {
+    jump( »regex« )
+  }
+  »D«
+  {
+    jump( »regex« )
+  }
+  »e«
+  {
+    jump( »regex« )
+  }
+  »f«
+  {
+    jump( »regex« )
+  }
+  »n«
+  {
+    jump( »regex« )
+  }
+  »q«
+  {
+    jump( »regex« )
+  }
+  »Q«
+  {
+    jump( »regex« )
+  }
+  »r«
+  {
+    jump( »regex« )
+  }
+  »s«
+  {
+    jump( »regex« )
+  }
+  »S«
+  {
+    jump( »regex« )
+  }
+  »t«
+  {
+    jump( »regex« )
+  }
+  »v«
+  {
+    jump( »regex« )
+  }
+  »w«
+  {
+    jump( »regex« )
+  }
+  »W«
+  {
+    jump( »regex« )
+  }
+  »x«
+  {
+    jump( »regex_hex« )
+  }
+  ».«
+  {
+    jump( »regex« )
+  }
+}
+regex_hex
+{
+  [0..9]
+  {
+  }
+  »\«
+  {
+  }
+  [A..F]
+  {
+  }
+  [a..f]
+  {
+  }
+}
+remark_line
+{
+  newline
+  {
+    return()
+  }
+  jump( »remark_line« )
+}
+remark_c
+{
+  »*/«
+  {
+    return()
+  }
+  jump( »remark_c« )
+}
+up()
+
+up()
+
+down()
+
+insert_text()
+
+up()
+1 passes, 2.1 seconds, 31545 bytes.
+
+
+flat assembler  version 1.71.54  (16384 kilobytes memory)
+[asm:sba] <type>         ( modified ) %CUID WORD WORD WORD WORD QWORD / @file / ... -> QWORD / @mem / ...  #RESV   ( #SIZE   )
+[asm:sba] <code>         (2016-01-07) %0001 001B 041A 6D61 6464 *0x00000000000000C0 -> *0x0000000000000000 #0x1000 ( #0x041A )
+[asm:sba] <data>         (2016-02-09) %0002 0002 0000 0000 »db« *0x00000000000005FB -> *0x0000000000001000 #0x0000 ( #0x0000 )
+[asm:sba] <buffers>      (2016-02-09) %0003 0005 0008 »*b« »uf« *0x00000000000004DA -> *0x0000000000001000 #0x0040 ( #0x0121 )
+[asm:sba] <symbols>      (2016-02-09) %0004 000B 0004 »sy« »mb« *0x0000000000000604 -> *0x0000000000001040 #0x0020 ( #0x001B )
+[asm:sba] <module>       (2016-02-09) %0005 0011 0004 »lo« »ad« *0x00000000000005FB -> *0x0000000000001060 #0x0020 ( #0x0009 )
+[asm:sba] <symbols>      (2016-02-09) %0006 000B 0006 »sy« »mb« *0x0000000000000625 -> *0x0000000000001080 #0x0030 ( #0x0037 )
+[asm:sba] <module>       (2016-02-09) %0007 0011 0006 »lo« »ad« *0x000000000000061F -> *0x00000000000010B0 #0x0030 ( #0x0006 )
+[asm:sba] <symbols>      (2016-02-09) %0008 000B 0011 »sy« »mb« *0x0000000000000663 -> *0x00000000000010E0 #0x0088 ( #0x0093 )
+[asm:sba] <module>       (2016-02-09) %0009 0011 0008 »lo« »ad« *0x000000000000065C -> *0x0000000000001168 #0x0088 ( #0x0007 )
+[asm:sba] <symbols>      (2016-02-09) %000A 000B 0004 »sy« »mb« *0x00000000000006FD -> *0x00000000000011F0 #0x0020 ( #0x0018 )
+[asm:sba] <module>       (2016-02-09) %000B 0011 000A »lo« »ad« *0x00000000000006F6 -> *0x0000000000001210 #0x0020 ( #0x0007 )
+[asm:sba] <final>        (2016-02-09) %000C 0000 null null 0001 »ycontent«          =#= 0x0000000000002000 #0x005A ( #0x076F )
+code base: *0x:0000000000000000
+*buf base: *0x:0000000000001000
+symb *0x0000000000001000 -> »code/yasic.sba«
+symb *0x0000000000001008 -> »[yapla] == Yet Another Programming Language. Again! ==
+«
+symb *0x0000000000001010 -> »[yapla] Input File: »/home/sivizius/sba/src0/yapla/yapla.sba«
+«
+symb *0x0000000000001018 -> »[yapla] parsing file....
+«
+symb *0x0000000000001020 -> »[yapla] its an sba-file \o/
+«
+symb *0x0000000000001028 -> »[yapla] its yet another instruction code \o/
+«
+symb *0x0000000000001030 -> »[yapla] done
+«
+symb *0x0000000000001038 -> »[yapla] unknown language :S!
+«
+data base: *0x:0000000000001000
+load base: *0x:0000000000001060
+symb *0x0000000000001040 -> *0x0000000000001060 -> »debug«
+symb *0x0000000000001048 -> *0x0000000000001068 -> »hash«
+symb *0x0000000000001050 -> *0x0000000000001070 -> »init«
+symb *0x0000000000001058 -> *0x0000000000001078 -> »insert«
+load base: *0x:00000000000010B0
+symb *0x0000000000001080 -> *0x00000000000010B0 -> »error«
+symb *0x0000000000001088 -> *0x00000000000010B8 -> »hexBuffer«
+symb *0x0000000000001090 -> *0x00000000000010C0 -> »hexRegister«
+symb *0x0000000000001098 -> *0x00000000000010C8 -> »hexValue«
+symb *0x00000000000010A0 -> *0x00000000000010D0 -> »print«
+symb *0x00000000000010A8 -> *0x00000000000010D8 -> »state«
+load base: *0x:0000000000001168
+symb *0x00000000000010E0 -> *0x0000000000001168 -> »close«
+symb *0x00000000000010E8 -> *0x0000000000001170 -> »debug«
+symb *0x00000000000010F0 -> *0x0000000000001178 -> »get«
+symb *0x00000000000010F8 -> *0x0000000000001180 -> »getByte«
+symb *0x0000000000001100 -> *0x0000000000001188 -> »getChar«
+symb *0x0000000000001108 -> *0x0000000000001190 -> »getDWord«
+symb *0x0000000000001110 -> *0x0000000000001198 -> »getLength«
+symb *0x0000000000001118 -> *0x00000000000011A0 -> »getObject«
+symb *0x0000000000001120 -> *0x00000000000011A8 -> »getQWord«
+symb *0x0000000000001128 -> *0x00000000000011B0 -> »getString«
+symb *0x0000000000001130 -> *0x00000000000011B8 -> »getTo«
+symb *0x0000000000001138 -> *0x00000000000011C0 -> »getUTF8«
+symb *0x0000000000001140 -> *0x00000000000011C8 -> »getWord«
+symb *0x0000000000001148 -> *0x00000000000011D0 -> »open«
+symb *0x0000000000001150 -> *0x00000000000011D8 -> »seek«
+symb *0x0000000000001158 -> *0x00000000000011E0 -> »seekBack«
+symb *0x0000000000001160 -> *0x00000000000011E8 -> »seekBase«
+load base: *0x:0000000000001210
+symb *0x00000000000011F0 -> *0x0000000000001210 -> »init«
+symb *0x00000000000011F8 -> *0x0000000000001218 -> »fail«
+symb *0x0000000000001200 -> *0x0000000000001220 -> »open«
+symb *0x0000000000001208 -> *0x0000000000001228 -> »read«
+stop base: *0x:0000000000001000
+pointers: #0x0000000000001000
+[asm:sba] this file contains 0x000C yapters.
+herewego: *0x000000000000076F
+3 passes, 1903 bytes.
+[yalave] i am »[enviroment] myself: /home/sivizius/sba/bin/yalave.elf
+[enviroment] username: sivizius
+[enviroment] home directory: /home/sivizius
+[enviroment] current directory: /home/sivizius/sba/src/yasic
+[yalave] i am »/home/sivizius/sba/bin/yalave.elf«.
+[yalave] open file »output.sba«.
+[files] *file:            *0x0000000000408A4F
+[files] fd:                0x0000000000000003
+[files] name:              »output.sba«
+[files] *name:            *0x0000000000408A43
+[files] *buffer:          *0x0000000000000000
+[files] *position:        *0x0000000000000000
+[files] *offset:          *0x0000000000000000
+[files] next->:           *0x0000000000000000
+[files] <-last:           *0x0000000000000000
+[files] == yapters ==
+[files] > ytable:         *0x00007F3A3517D000
+[files] > ycontent:       *0x0000000000000000
+[files] > ysymbols/yid:   *0x0000000000000000
+[files] > ypointers:      *0x0000000000000000
+[files] > ycount:          0x0000
+[files] > ycuid:           0x0000
+[files] > ysize:           0x1000
+[files] > ystate:          0x0011
+[files] size:              0x000000000000076F
+[files] a-time:            0x0000000057687445
+[files] a-time_nsec:       0x0000000004A4351C
+[files] m-time:            0x0000000057687514
+[files] m-time_nsec:       0x00000000127CA5D0
+[files] c-time:            0x0000000057687514
+[files] c-time_nsec:       0x00000000127CA5D0
+#!sba64
+#a=_sivizius
+#b=ascii\n
+#c=2016-02-10_17:21:05
+#d=2016-06-21_00:58:26
+#v=0.9.1.0
+ <TYPE>          %CUID   #TYPE  #SIZE  #RESV  #MISC  @SELF
+<x86_64-code>   %0x0001 0x001B 0x041A 0x6D61 0x6464 0x00000000000000C0
+<data>          %0x0002 0x0002 0x0000 0x0000 0x6264 0x00000000000005FB
+<buffers>       %0x0003 0x0005 0x0008 0x622A 0x6675 0x00000000000004DA
+<symbols>       %0x0004 0x000B 0x0004 0x7973 0x626D 0x0000000000000604
+<module>        %0x0005 0x0011 0x0004 0x6F6C 0x6461 0x00000000000005FB
+<symbols>       %0x0006 0x000B 0x0006 0x7973 0x626D 0x0000000000000625
+<module>        %0x0007 0x0011 0x0006 0x6F6C 0x6461 0x000000000000061F
+<symbols>       %0x0008 0x000B 0x0011 0x7973 0x626D 0x0000000000000663
+<module>        %0x0009 0x0011 0x0008 0x6F6C 0x6461 0x000000000000065C
+<symbols>       %0x000A 0x000B 0x0004 0x7973 0x626D 0x00000000000006FD
+<module>        %0x000B 0x0011 0x000A 0x6F6C 0x6461 0x00000000000006F6
+<final>         %0x000C 0x0000 0x0000 0x0000 0x0001 0x746E65746E6F6379
+[yapter]   > here:  *0x00007F3A3517B000
+[yapter]   > resv:   0x0000000000002000
+[yapter]   > stop:  *0x00007F3A3517D000
+[yapter] load:
+[yapter]   type: 0x001B
+[yapter]   self: 1B001A0400106464C000000000000000
+[yapter]   > 64bit x86-code.
+[yapter]     > code:
+0x0000 4D31C94D31C04D31D248C7C200000000488B3DE90F000048C7C69CFFFFFF488D7FFEFF15A8110000E801000000C3488B35D30F0000480FB756FEFF1590100000 M1.M1.M1.H......H.=....H......H..............H.5....H..V.......
+0x0040 488B35C90F0000480FB756FEFF157E100000488B35BF0F0000480FB756FEFF156C100000FF151E1100004883F8230F85EB000000FF150E1100004883F8210F85 H.5....H..V...~...H.5....H..V...l.........H..#............H..!..
+0x0080 DB000000FF15FE1000004883F8730F85CB000000FF15EE1000004883F8620F85BB000000FF15DE1000004883F8610F85AB000000FF15CE1000004883F83A0F85 ..........H..s............H..b............H..a............H..:..
+0x00C0 9B000000488B35550F0000480FB756FEFF15FA0F0000FF15AC1000004883F8797569FF15A01000004883F861755DFF15941000004883F8737551FF1588100000 ....H.5U...H..V.............H..yui......H..au]......H..suQ......
+0x0100 4883F8697545FF157C1000004883F8637539FF15701000004883F80A752D488B35030F0000480FB756FEFF15A00F0000E832000000488B35F40E0000480FB756 H..iuE..|...H..cu9..p...H...u-H.5....H..V........2...H.5....H..V
+0x0140 FEFF15890F00004831C0C350488B35E50E0000480FB756FEFF15720F00005848C7C001000000C348B8FFFFFFFF00000000C348C7C020000000C3FF1508100000 .......H1..PH.5....H..V...r...XH.......H..........H.. ..........
+0x0180 4809C075044831C0C34831C0C34883F809720E4883F80D72064883F8207502EBC64883F82F7520FF15DB0F00004883F82F7507E822020000EBAD4883F82A7507 H..u.H1..H1..H...r.H...r.H.. u...H../u ......H../u..".....H..*u.
+0x01C0 E82F020000EBA04883F823740CFF15B50F00004883F83B7507E8FC010000EB874883F8277505E9D90000004883F85F7416FF15910F00004883C8204883F86172 ./.....H..#t.......H..;u........H..'u......H.._t.......H.. H..ar
+0x0200 084883F87A7702EB0848C7C001000000C3FF15710F00004883F83072184883F83972104883C8204883F86172084883F87A7702EBDC4883F809720E4883F80D72 .H..zw...H.........q...H..0r.H..9r.H.. H..ar.H..zw...H...r.H...r
+0x0240 064883F8207502EB234883F8287502EB5B4883F83D7502EB5B4883F87B750548FFC2EB5848C7C001000000C3FF15160F00004883F809720E4883F80D72064883 .H.. u..#H..(u..[H..=u..[H..{u.H...XH.............H...r.H...r.H.
+0x0280 F8207502EBE64883F8287502EB1E4883F83D7502EB1E4883F87B750848FFC2E9C3FEFFFF48C7C001000000C348C7C001000000C348C7C001000000C348C7C001 . u...H..(u...H..=u...H..{u.H.......H.......H.......H.......H...
+0x02C0 000000C3FF15BE0E00004883F85C7502EB124883F82775044831C0C348C7C001000000C3FF159E0E00004883F8307502EBD24883F8617502EBCA4883F8627502 ..........H..\u...H..'u.H1..H.............H..0u...H..au...H..bu.
+0x0300 EBC24883F8647502EBBA4883F8447502EBB24883F8657502EBAA4883F8667502EBA24883F86E7502EB9A4883F8717502EB924883F8517502EB8A4883F8727502 ..H..du...H..Du...H..eu...H..fu...H..nu...H..qu...H..Qu...H..ru.
+0x0340 EB824883F8737505E977FFFFFF4883F8537505E96CFFFFFF4883F8747505E961FFFFFF4883F8767505E956FFFFFF4883F8777505E94BFFFFFF4883F8577505E9 ..H..su..w...H..Su..l...H..tu..a...H..vu..V...H..wu..K...H..Wu..
+0x0380 40FFFFFF4883F87875054831DBEB134883F82E7505E92AFFFFFF48C7C001000000C3FF15E00D00004883F83072064883F83977004883F85C75004883F8417206 @...H..xu.H1...H...u..*...H.............H..0r.H..9w.H..\u.H..Ar.
+0x03C0 4883F84677004883F86172064883F866770048C7C001000000C3FF15A80D00004883F80A75044831C0C3EBEE48C7C001000000C3FF158E0D00004883F82A7510 H..Fw.H..ar.H..fw.H.............H...u.H1....H.............H..*u.
+0x0400 FF15820D00004883F82F75044831C0C3EBE248C7C001000000C30000000000000000000000000000000000000000000000000000000000000000000000000000 ......H../u.H1....H.............................................
+[yapter]     > from:  @0x00000000000000C0
+[yapter]     > here:  *0x00007F3A3517B000
+[yapter]     > size:   0x041A
+[yapter]     > resv:   0x1000
+[yapter]   type: 0x0002
+[yapter]   self: 0200000000006462FB05000000000000
+[yapter]   > just data.
+[yapter]     > data:
+[yapter]     > from:  @0x00000000000005FB
+[yapter]     > here:  *0x00007F3A3517C000
+[yapter]     > size:   0x0000
+[yapter]     > resv:   0x0000
+[yapter]   type: 0x0005
+[yapter]   self: 050008002A627566DA04000000000000
+[yapter]   > load some buffers.
+[yapter]     > buffers:
+[yapter]       > *0x00007F3A3517C000 -> 0000000000408F78 -> code/yasic.sba
+[yapter]       > *0x00007F3A3517C008 -> 0000000000408F88 -> [yapla] == Yet Another Programming Language. Again! ==
+
+[yapter]       > *0x00007F3A3517C010 -> 0000000000408FC1 -> [yapla] Input File: »/home/sivizius/sba/src0/yapla/yapla.sba«
+
+[yapter]       > *0x00007F3A3517C018 -> 0000000000409003 -> [yapla] parsing file....
+
+[yapter]       > *0x00007F3A3517C020 -> 000000000040901E -> [yapla] its an sba-file \o/
+
+[yapter]       > *0x00007F3A3517C028 -> 000000000040903C -> [yapla] its yet another instruction code \o/
+
+[yapter]       > *0x00007F3A3517C030 -> 000000000040906B -> [yapla] done
+
+[yapter]       > *0x00007F3A3517C038 -> 000000000040907A -> [yapla] unknown language :S!
+
+[yapter]     > here:  *0x00007F3A3517C000
+[yapter]     > size:   0x0121
+[yapter]     > resv:   0x0040
+[yapter]     > count: #0x0008
+[yapter]   type: 0x000B
+[yapter]   self: 0B00040073796D620406000000000000
+[yapter]   > just a bunch of symbols.
+[yapter]     > symbols:
+[yapter]       > *0x00007F3A3517C040 -> 0000000000409099 -> debug
+[yapter]       > *0x00007F3A3517C048 -> 00000000004090A0 -> hash
+[yapter]       > *0x00007F3A3517C050 -> 00000000004090A6 -> init
+[yapter]       > *0x00007F3A3517C058 -> 00000000004090AC -> insert
+[yapter]     > here:  *0x00007F3A3517C040
+[yapter]     > size:   0x001B
+[yapter]     > resv:   0x0020
+[yapter]     > count: #0x0004
+[yapter]   type: 0x0011
+[yapter]   self: 11000400200004005A8B400000000000
+[yapter]   > load sba-file as module.
+[files] *file:            *0x0000000000408B5A
+[files] fd:                0x0000000000000005
+[files] name:              »cookies«
+[files] *name:            *0x0000000000408B51
+[files] *buffer:          *0x0000000000000000
+[files] *position:        *0x0000000000000000
+[files] *offset:          *0x0000000000000000
+[files] next->:           *0x0000000000408A4F
+[files] <-last:           *0x0000000000408C62
+[files] == yapters ==
+[files] > ytable:         *0x00007F3A3517A000
+[files] > ycontent:       *0x0000000000000000
+[files] > ysymbols/yid:   *0x00007F3A3517D040
+[files] > ypointers:      *0x0000000000000000
+[files] > ycount:          0x0000
+[files] > ycuid:           0x0000
+[files] > ysize:           0x1000
+[files] > ystate:          0x0021
+[files] size:              0x0000000000000F36
+[files] a-time:            0x0000000057686A36
+[files] a-time_nsec:       0x0000000019D92F11
+[files] m-time:            0x0000000056EDB4D0
+[files] m-time_nsec:       0x000000000AB44F88
+[files] c-time:            0x0000000056EF967E
+[files] c-time_nsec:       0x000000002D2F8BBB
+#!sba64
+#a=_sivizius
+#b=ascii\\n
+#c=2016-02-10_17:21:05
+#d=2016-03-19_21:21:36
+#v=0.9.1.0
+ <TYPE>          %CUID   #TYPE  #SIZE  #RESV  #MISC  @SELF
+<x86_64-code>   %0x0001 0x001B 0x090D 0x6D61 0x6464 0x00000000000003AE
+<data>          %0x0002 0x0002 0x0100 0x1000 0x6264 0x0000000000000CBB
+<pointers>      %0x0003 0x000C 0x0005 0x702A 0x7274 0x0000000000000E93
+<buffers>       %0x0004 0x0005 0x0022 0x622A 0x6675 0x00000000000000B0
+<symbols>       %0x0005 0x000B 0x000F 0x7973 0x626D 0x0000000000000DC4
+<module>        %0x0006 0x0011 0x0005 0x6F6C 0x6461 0x0000000000000DBB
+<symbols>       %0x0007 0x000B 0x0006 0x7973 0x626D 0x0000000000000E41
+<module>        %0x0008 0x0011 0x0007 0x6F6C 0x6461 0x0000000000000E3B
+<symbols>       %0x0009 0x000B 0x0004 0x7973 0x626D 0x0000000000000E78
+<pointers>      %0x000A 0x000C 0x0004 0x702A 0x7274 0x0000000000000EBB
+<final>         %0x000B 0x0000 0x0009 0x000A 0x0000 0x746E65746E6F6379
+[yapter]   > here:  *0x00007F3A35177000
+[yapter]   > resv:   0x0000000000003000
+[yapter]   > stop:  *0x00007F3A3517A000
+[yapter] load:
+[yapter]   type: 0x001B
+[yapter]   self: 1B000D0900106464AE03000000000000
+[yapter]   > 64bit x86-code.
+[yapter]     > code:
+0x001B 505351525756488B351B200000480FB756FEFF1560220000488B3521200000480FB756FEFF154E22000048C7C1460000004831D2FF15AE2100004989FD585941 PSQRWVH.5. ..H..V...`"..H.5! ..H..V...N"..H..F...H1....!..I..XYA
+0x005B 884544488D35B61F00004883F8020F87E40700005AFF14C648C7C22000000008C90F82A707000080F90F0F879E07000048D3E2524889D14831D2FF1568210000 .EDH.5....H.........Z...H.. ....................H..RH..H1...h!..
+0x009B 49897D0A5F48C1EF05488D47FF49895D02594989451A5B58F8C34D8B6424104D09E47501C3488B357C1F0000480FB756FEFF15C1210000488B3522200000480F I.}._H...H.G.I.].YI.E.[X..M.d$.M..u..H.5|...H..V....!..H.5" ..H.
+0x00DB B756FEFF15AF2100004C893598210000488D359121000048C7C708000000FF158C210000488B35FD1F0000480FB756FEFF1582210000498D74240448C7C70400 .V....!..L.5.!..H.5.!..H.........!..H.5....H..V....!..I.t$.H....
+0x011B 0000FF1568210000488B35E11F0000480FB756FEFF155E210000498B742408480FB756FEFF154E210000488B35C71F0000480FB756FEFF153C210000E959FFFF ....h!..H.5....H..V...^!..I.t$.H..V...N!..H.5....H..V...<!...Y..
+0x015B FF6A00498B44240841544809C0747F4989C4488B35CF1E0000480FB756FEFF1514210000488B354D1F0000480FB756FEFF1502210000EBCB4883C408488B35A5 .j.I.D$.ATH..tI..H.5....H..V....!..H.5M...H..V....!....H...H.5.
+0x019B 1E0000480FB756FEFF15EA200000488B35431F0000480FB756FEFF15D8200000C3488B35801E0000480FB756FEFF15C5200000488B350E1F0000480FB756FEFF ...H..V.... ..H.5C...H..V.... ...H.5....H..V.... ..H.5....H..V..
+0x01DB 15B32000004C8B24244D09E474AA488B35531E0000480FB756FEFF1598200000488B35E91E0000480FB756FEFF15862000004D8B3424E89FFEFFFF415C4D09E4 .. ..L.$$M..t.H.5S...H..V.... ..H.5....H..V.... ..M.4$.....A\M..
+0x021B 0F8476FFFFFF4D8B6424184D09E47491488B35111E0000480FB756FEFF1556200000488B35971E0000480FB756FEFF1544200000E90AFFFFFF488B35E81D0000 ..v...M.d$.M..t.H.5....H..V...V ..H.5....H..V...D .......H.5....
+0x025B 480FB756FEFF152D200000488B35061E0000480FB756FEFF151B2000004C892D04200000488D35FD1F000048C7C708000000FF15F81F0000488B35B11D000048 H..V...- ..H.5....H..V.... ..L.-. ..H.5....H............H.5....H
+0x029B 0FB756FEFF15EE1F0000488B35CF1D0000480FB756FEFF15DC1F0000498D750248C7C708000000FF15C31F0000488B357C1D0000480FB756FEFF15B91F000048 ..V.......H.5....H..V.......I.u.H............H.5|...H..V.......H
+0x02DB 8B35A21D0000480FB756FEFF15A71F0000498D750A48C7C708000000FF158E1F0000488B35471D0000480FB756FEFF15841F0000488B35751D0000480FB756FE .5....H..V.......I.u.H............H.5G...H..V.......H.5u...H..V.
+0x031B FF15721F0000498D751A48C7C708000000FF15591F0000488B35121D0000480FB756FEFF154F1F0000488B35481D0000480FB756FEFF153D1F0000498D751248 ..r...I.u.H........Y...H.5....H..V...O...H.5H...H..V...=...I.u.H
+0x035B C7C708000000FF15241F0000488B35DD1C0000480FB756FEFF151A1F0000488B351B1D0000480FB756FEFF15081F0000498D754548C7C702000000FF15EF1E00 ........$...H.5....H..V.......H.5....H..V.......I.uEH...........
+0x039B 00488B35A81C0000480FB756FEFF15E51E0000488B35EE1C0000480FB756FEFF15D31E0000498D752A48C7C708000000FF15BA1E0000488B35731C0000480FB7 .H.5....H..V.......H.5....H..V.......I.u*H............H.5s...H..
+0x03DB 56FEFF15B01E0000488B35C11C0000480FB756FEFF159E1E0000498D753248C7C708000000FF15851E0000488B353E1C0000480FB756FEFF157B1E0000488B35 V.......H.5....H..V.......I.u2H............H.5>...H..V...{...H.5
+0x041B 941C0000480FB756FEFF15691E0000498D753A48C7C708000000FF15501E0000488B35091C0000480FB756FEFF15461E0000488B35671C0000480FB756FEFF15 ....H..V...i...I.u:H........P...H.5....H..V...F...H.5g...H..V...
+0x045B 341E0000490FB64544488D3D581C0000488B34C7480FB756FEFF15191E00004156498B551A4831C94D8B650266418B042448FFC26609C0752BE8C3FCFFFF498B 4...I..EDH.=X...H.4.H..V.......AVI.U.H1.M.e.fA..$H..f..u+.....I.
+0x049B 551A4831C94D8B650266418B042448FFC16609C0750E48FFCA74064983C420EBE8415EC3515241544923451A6639C874194D8B742418E8EAFBFFFF415C5A5948 U.H1.M.e.fA..$H..f..u.H..t.I.. ..A^.QRATI#E.f9.t.M.t$......A\ZYH
+0x04DB FFCA74DD4983C420EBBFE872FCFFFFEBEA53515257564831D24809FF660F4557FE498B453A41FF55125E5F5A595BC3535157564831D24809FF660F4557FE498B ..t.I.. ...r.....SQRWVH1.H..f.EW.I.E:A.U.^_ZY[.SQWVH1.H..f.EW.I.
+0x051B 453A41FF5512498B4D1A4889C3498B75024821C8488B7C240848C1E0054831D24801C64809FF488B06660F4557FE4809C07578488B46104809DB756866895602 E:A.U.I.M.H..I.u.H!.H.|$.H...H1.H..H..H..f.EW.H..uxH.F.H..uhf.V.
+0x055B 418345220148895E18418B552248897E0848F7D3895604498B7D0266891E41895522488B35A71B0000480FB756FEFF15041D0000498D752248C7C704000000FF A.E".H.^.A.U"H.~.H...V.I.}.f..A.U"H.5....H..V.......I.u"H.......
+0x059B 15EB1C0000488B35AC1A0000480FB756FEFF15E11C0000418B55224889D85E5F595BF8C34809C0750EEB914831D84821C80F85BE000000488B064839C30F8432 .....H.5....H..V.......A.U"H..^_Y[..H..u...H1.H!.......H..H9...2
+0x05DB 010000480F474E18480F424E084809C974084889CE488B01EBE052534831D24839C348C7C110000000488D7608480F47D14801D648C7C13600000056574831F6 ...H.GN.H.BN.H..t.H..H....RSH1.H9.H......H.v.H.G.H..H..6...VWH1.
+0x061B 4831D2FF15DF1B000048897F2859488957105E48894F085B5848895F184183452201488D4F18418B55226689470248890E895704488B35F51A0000480FB756FE H1.......H.(YH.W.^H.O.[XH._.A.E".H.O.A.U"f.G.H...W.H.5....H..V.
+0x065B FF15321C0000498D752248C7C704000000FF15191C0000488B35DA190000480FB756FEFF150F1C0000418B55224889D8E929FFFFFF488B46184839C374775241 ..2...I.u"H............H.5....H..V.......A.U"H...)...H.F.H9.twRA
+0x069B 57565348C7C14E0000004883C60248C7C21E000000FF154D1B000048897F285B5E4883C718488B46184831C94831D24C8D7F204839D8480F47CF4C897E10480F WVSH..N...H...H........M...H.([^H...H.F.H1.H1.L. H9.H.G.L.~.H.
+0x06DB 42D748894E18488B44241848895608418345220148894728418B552248891E895724415F5841895522668947224889D8E9A9FEFFFF4989F04989F96641395002 B.H.N.H.D$.H.V.A.E".H.G(A.U"H...W$A_XA.U"f.G"H.......I..I..fA9P.
+0x071B 0F85DF000000498B70084C89CF6689D1A60F85CE00000066FFC975EA49C7C1961900004889D8418B50045052488B35ED190000480FB756FEFF153A1B0000488D ......I.p.L..f.........f..u.I......H..A.P.PRH.5....H..V...:...H.
+0x075B 342448C7C704000000FF15211B0000488B35E2180000480FB756FEFF15171B00005A58E936FEFFFF415753524151415048C7C1160000004831D2FF15681A0000 4$H........!...H.5....H..V.......ZX.6...AWSRAQAPH......H1...h...
+0x079B 4989FF418345220149C7471000000000488B3581190000480FB756FEFF15D61A0000498D752248C7C704000000FF15BD1A0000488B357E180000480FB756FEFF I..A.E".I.G.....H.5....H..V.......I.u"H............H.5~...H..V..
+0x07DB 15B31A0000418B552258418957045E4C8978105B49897708586641895F02415FE9B9FDFFFF498B40104809C00F8476FFFFFF4989C0E901FFFFFFFF15801A0000 .....A.U"XA.W.^L.x.[I.w.XfA._.A_.....I.@.H....v...I.............
+0x081B 49C7C037130000FF15731A0000F4488B3513180000480FB756FEFF15581A0000488B3521180000480FB756FEFF15461A00004883C420F9C3488B35E917000048 I..7.....s....H.5....H..V...X...H.5!...H..V...F...H.. ..H.5....H
+0x085B 0FB756FEFF152E1A0000488B35FF170000480FB756FEFF151C1A00004883C420F9C3488D053C00000049894512F8C34989553A488D354D000000488D3D7F1700 ..V.......H.5....H..V.......H.. ..H..<...I.E...I.U:H.5M...H.=..
+0x089B 0049897512488B54C710F8488B74C7184989552A49897532C3488D350600000049897512C3C34831C048C7C037134223C34809D2741048C1E0088A0748FFC748 .I.u.H.T...H.t..I.U*I.u2.H.5....I.u...H1.H..7.B#.H..t.H.....H..H
+0x08DB FFCA7402EBF0C3498B5D324809D27410320741FF552A48FFC748FFCA7402EBF048C7C20500000041FF552A48FFCA7402EBF5C348C7C1070000004889C6D748C1 ..t....I.]2H..t.2.A.U*H..H..t...H......A.U*H..t....H......H...H.
+0x091B C0114831F048FFC97402EBF1C3000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 ..H1.H..t.......................................................
+[yapter]     > from:  @0x00000000000003AE
+[yapter]     > here:  *0x00007F3A35177000
+[yapter]     > size:   0x090D
+[yapter]     > resv:   0x1000
+[yapter]   type: 0x0002
+[yapter]   self: 0200000100106462BB0C000000000000
+[yapter]   > just data.
+[yapter]     > data:
+0x0000 637C777BF26B6FC53001672BFED7AB76CA82C97DFA5947F0ADD4A2AF9CA472C0B7FD9326363FF7CC34A5E5F171D8311504C723C31896059A071280E2EB27B275 c|w{.ko.0.g+...v...}.YG.......r....&6?..4...q.1...#..........'.u
+0x0040 09832C1A1B6E5AA0523BD6B329E32F8453D100ED20FCB15B6ACBBE394A4C58CFD0EFAAFB434D338545F9027F503C9FA851A3408F929D38F5BCB6DA2110FFF3D2 ..,..nZ.R;..)./.S... ..[j..9JLX.....CM3.E..P<..Q.@...8....!....
+0x0080 CD0C13EC5F974417C4A77E3D645D197360814FDC222A908846EEB814DE5E0BDBE0323A0A4906245CC2D3AC629195E479E7C8376D8DD54EA96C56F4EA657AAE08 ...._.D...~=d].s`.O."*..F....^...2:.I.$\...b...y..7m..N.lV..ez..
+0x00C0 BA78252E1CA6B4C6E8DD741F4BBD8B8A703EB5664803F60E613557B986C11D9EE1F8981169D98E949B1E87E9CE5528DF8CA1890DBFE6426841992D0FB054BB16 .x%.......t.K...p>.fH...a5W.........i........U(.......BhA.-..T..
+[yapter]     > from:  @0x0000000000000CBB
+[yapter]     > here:  *0x00007F3A35178000
+[yapter]     > size:   0x0100
+[yapter]     > resv:   0x1000
+[yapter]   type: 0x000C
+[yapter]   self: 0C0005002A707472930E000000000000
+[yapter]   > just a bunch of pointers.
+[yapter]     > pointers:
+[yapter]       > *0x00007F3A35179000 -> *0x00007F3A35177862
+[yapter]       > *0x00007F3A35179008 -> *0x00007F3A3517786F
+[yapter]       > *0x00007F3A35179010 -> *0x00007F3A35177899
+[yapter]       > *0x00007F3A35179018 -> *0x00007F3A351778F3
+[yapter]       > *0x00007F3A35179020 -> *0x00007F3A35178000
+[yapter]     > here:  *0x00007F3A35179000
+[yapter]     > size:   0x0028
+[yapter]     > resv:   0x0028
+[yapter]     > count: #0x0005
+[yapter]   type: 0x0005
+[yapter]   self: 050022002A627566B000000000000000
+[yapter]   > load some buffers.
+[yapter]     > buffers:
+[yapter]       > *0x00007F3A35179028 -> 00000000004092C7 -> [cookies] 
+[yapter]       > *0x00007F3A35179030 -> 00000000004092D3 -> 
+[cookies] 
+[yapter]       > *0x00007F3A35179038 -> 00000000004092E0 -> 
+
+[yapter]       > *0x00007F3A35179040 -> 00000000004092E3 -> They taste so go0oOd!
+
+[yapter]       > *0x00007F3A35179048 -> 00000000004092FB -> fail: power must be in 1 and 16!
+
+[yapter]       > *0x00007F3A35179050 -> 000000000040931E -> fail: unknown hash-algorithm!
+
+[yapter]       > *0x00007F3A35179058 -> 000000000040933E -> __cookies__  *0x
+[yapter]       > *0x00007F3A35179060 -> 0000000000409350 -> *table       *0x
+[yapter]       > *0x00007F3A35179068 -> 0000000000409362 -> *buffer      *0x
+[yapter]       > *0x00007F3A35179070 -> 0000000000409374 -> mask         &0x
+[yapter]       > *0x00007F3A35179078 -> 0000000000409386 -> *function()  @0x
+[yapter]       > *0x00007F3A35179080 -> 0000000000409398 -> entries      #0x
+[yapter]       > *0x00007F3A35179088 -> 00000000004093AA -> *hash()      @0x
+[yapter]       > *0x00007F3A35179090 -> 00000000004093BC -> sbox         *0x
+[yapter]       > *0x00007F3A35179098 -> 00000000004093CE -> seed          0x
+[yapter]       > *0x00007F3A351790A0 -> 00000000004093E0 -> type          
+[yapter]       > *0x00007F3A351790A8 -> 00000000004093F0 -> index
+
+[yapter]       > *0x00007F3A351790B0 -> 00000000004093F8 -> sponge_sasha0_rijndael
+
+[yapter]       > *0x00007F3A351790B8 -> 0000000000409411 -> go below.
+
+[yapter]       > *0x00007F3A351790C0 -> 000000000040941D -> go above.
+
+[yapter]       > *0x00007F3A351790C8 -> 0000000000409429 -> return.
+
+[yapter]       > *0x00007F3A351790D0 -> 0000000000409433 -> put list.
+
+[yapter]       > *0x00007F3A351790D8 -> 000000000040943F -> end of tree.
+
+[yapter]       > *0x00007F3A351790E0 -> 000000000040944E -> <0x
+[yapter]       > *0x00007F3A351790E8 -> 0000000000409453 -> >( uid = #0x
+[yapter]       > *0x00007F3A351790F0 -> 0000000000409461 ->  ): »
+[yapter]       > *0x00007F3A351790F8 -> 0000000000409469 -> «.
+
+[yapter]       > *0x00007F3A35179100 -> 000000000040946F -> 
+[ps][ln][  uid ][    string    ][     next     ][     hash     ][     above    ][     equal    ][     below    ][ps][ln][  uid ][    string    ][     next     ]
+
+[yapter]       > *0x00007F3A35179108 -> 0000000000409513 -> 
+[     hash     ][     above    ][     equal    ][     below    ]
+
+[yapter]       > *0x00007F3A35179110 -> 0000000000409557 ->  new item, uid = #0x
+[yapter]       > *0x00007F3A35179118 -> 000000000040956D ->  add item, uid = #0x
+[yapter]       > *0x00007F3A35179120 -> 0000000000409583 ->  old item, uid = #0x
+[yapter]       > *0x00007F3A35179128 -> 0000000000409599 ->  new tree, uid = #0x
+[yapter]       > *0x00007F3A35179130 -> 00000000004095AF ->  new leap, uid = #0x
+[yapter]     > here:  *0x00007F3A35179028
+[yapter]     > size:   0x02FE
+[yapter]     > resv:   0x0110
+[yapter]     > count: #0x0022
+[yapter]   type: 0x000B
+[yapter]   self: 0B000F0073796D62C40D000000000000
+[yapter]   > just a bunch of symbols.
+[yapter]     > symbols:
+[yapter]       > *0x00007F3A35179138 -> 00000000004095C5 -> clone
+[yapter]       > *0x00007F3A35179140 -> 00000000004095CC -> debug
+[yapter]       > *0x00007F3A35179148 -> 00000000004095D3 -> delete
+[yapter]       > *0x00007F3A35179150 -> 00000000004095DB -> echo
+[yapter]       > *0x00007F3A35179158 -> 00000000004095E1 -> echo0
+[yapter]       > *0x00007F3A35179160 -> 00000000004095E8 -> extend
+[yapter]       > *0x00007F3A35179168 -> 00000000004095F0 -> get
+[yapter]       > *0x00007F3A35179170 -> 00000000004095F5 -> new
+[yapter]       > *0x00007F3A35179178 -> 00000000004095FA -> putByte
+[yapter]       > *0x00007F3A35179180 -> 0000000000409603 -> putDWord
+[yapter]       > *0x00007F3A35179188 -> 000000000040960D -> putQWord
+[yapter]       > *0x00007F3A35179190 -> 0000000000409617 -> putWord
+[yapter]       > *0x00007F3A35179198 -> 0000000000409620 -> revive
+[yapter]       > *0x00007F3A351791A0 -> 0000000000409628 -> store
+[yapter]       > *0x00007F3A351791A8 -> 000000000040962F -> wastepicker
+[yapter]     > here:  *0x00007F3A35179138
+[yapter]     > size:   0x0077
+[yapter]     > resv:   0x0078
+[yapter]     > count: #0x000F
+[yapter]   type: 0x0011
+[yapter]   self: 1100050078000F00BB90400000000000
+[yapter]   > load sba-file as module.
+[yapter] > *0x00007F3A351791B0 -> *0x00000000004002A8
+[yapter] > *0x00007F3A351791B8 -> *0x00000000004002DA
+[yapter] > *0x00007F3A351791C0 -> *0x000000000040063C
+[yapter] > *0x00007F3A351791C8 -> *0x00000000004006D6
+[yapter] > *0x00007F3A351791D0 -> *0x00000000004006FE
+[yapter] > *0x00007F3A351791D8 -> *0x0000000000400727
+[yapter] > *0x00007F3A351791E0 -> *0x00000000004007CC
+[yapter] > *0x00007F3A351791E8 -> *0x000000000040085A
+[yapter] > *0x00007F3A351791F0 -> *0x0000000000400A43
+[yapter] > *0x00007F3A351791F8 -> *0x0000000000400B6B
+[yapter] > *0x00007F3A35179200 -> *0x0000000000400C06
+[yapter] > *0x00007F3A35179208 -> *0x0000000000400ACF
+[yapter] > *0x00007F3A35179210 -> *0x0000000000400CA2
+[yapter] > *0x00007F3A35179218 -> *0x0000000000400CEC
+[yapter] > *0x00007F3A35179220 -> *0x0000000000400D10
+[yapter]   type: 0x000B
+[yapter]   self: 0B00060073796D62410E000000000000
+[yapter]   > just a bunch of symbols.
+[yapter]     > symbols:
+[yapter]       > *0x00007F3A35179228 -> 000000000040963C -> error
+[yapter]       > *0x00007F3A35179230 -> 0000000000409643 -> hexBuffer
+[yapter]       > *0x00007F3A35179238 -> 000000000040964E -> hexRegister
+[yapter]       > *0x00007F3A35179240 -> 000000000040965B -> hexValue
+[yapter]       > *0x00007F3A35179248 -> 0000000000409665 -> print
+[yapter]       > *0x00007F3A35179250 -> 000000000040966C -> state
+[yapter]     > here:  *0x00007F3A35179228
+[yapter]     > size:   0x0037
+[yapter]     > resv:   0x0030
+[yapter]     > count: #0x0006
+[yapter]   type: 0x0011
+[yapter]   self: 1100070030000600C391400000000000
+[yapter]   > load sba-file as module.
+[yapter] > *0x00007F3A35179258 -> *0x0000000000400DDE
+[yapter] > *0x00007F3A35179260 -> *0x0000000000400E7F
+[yapter] > *0x00007F3A35179268 -> *0x000000000040889A
+[yapter] > *0x00007F3A35179270 -> *0x0000000000400EDC
+[yapter] > *0x00007F3A35179278 -> *0x0000000000400E5D
+[yapter] > *0x00007F3A35179280 -> *0x0000000000400F3D
+[yapter]   type: 0x000B
+[yapter]   self: 0B00040073796D62780E000000000000
+[yapter]   > just a bunch of symbols.
+[yapter]     > symbols:
+[yapter]       > *0x00007F3A35179288 -> 0000000000409673 -> debug
+[yapter]       > *0x00007F3A35179290 -> 000000000040967A -> hash
+[yapter]       > *0x00007F3A35179298 -> 0000000000409680 -> init
+[yapter]       > *0x00007F3A351792A0 -> 0000000000409686 -> insert
+[yapter]     > here:  *0x00007F3A35179288
+[yapter]     > size:   0x001B
+[yapter]     > resv:   0x0020
+[yapter]     > count: #0x0004
+[yapter]   type: 0x000C
+[yapter]   self: 0C0004002A707472BB0E000000000000
+[yapter]   > just a bunch of pointers.
+[yapter]     > pointers:
+[yapter]       > *0x00007F3A351792A8 -> *0x00007F3A35177239
+[yapter]       > *0x00007F3A351792B0 -> *0x00007F3A351774D1
+[yapter]       > *0x00007F3A351792B8 -> *0x00007F3A35177000
+[yapter]       > *0x00007F3A351792C0 -> *0x00007F3A351774EF
+[yapter]     > here:  *0x00007F3A351792A8
+[yapter]     > size:   0x0020
+[yapter]     > resv:   0x0020
+[yapter]     > count: #0x0004
+[yapter]   type: 0x0000
+[yapter]   self: 000009000A00000079636F6E74656E74
+[yapter]   > final chapter, there are no more yapters left.
+[yapter]     > cuid:  %0x0009
+[yapter]     > count: #0x0000
+[yapter]     > resv:   0x000A
+[yapter]     > assign:
+[yapter]       > *0x00007F3A35177239 -> debug
+[yapter]       > *0x00007F3A351774D1 -> hash
+[yapter]       > *0x00007F3A35177000 -> init
+[yapter]       > *0x00007F3A351774EF -> insert
+[yapter] < return
+[yapter] > *0x00007F3A3517C060 -> *0x00007F3A35177239
+[yapter] > *0x00007F3A3517C068 -> *0x00007F3A351774D1
+[yapter] > *0x00007F3A3517C070 -> *0x00007F3A35177000
+[yapter] > *0x00007F3A3517C078 -> *0x00007F3A351774EF
+[yapter]   type: 0x000B
+[yapter]   self: 0B00060073796D622506000000000000
+[yapter]   > just a bunch of symbols.
+[yapter]     > symbols:
+[yapter]       > *0x00007F3A3517C080 -> 000000000040968E -> error
+[yapter]       > *0x00007F3A3517C088 -> 0000000000409695 -> hexBuffer
+[yapter]       > *0x00007F3A3517C090 -> 00000000004096A0 -> hexRegister
+[yapter]       > *0x00007F3A3517C098 -> 00000000004096AD -> hexValue
+[yapter]       > *0x00007F3A3517C0A0 -> 00000000004096B7 -> print
+[yapter]       > *0x00007F3A3517C0A8 -> 00000000004096BE -> state
+[yapter]     > here:  *0x00007F3A3517C080
+[yapter]     > size:   0x0037
+[yapter]     > resv:   0x0030
+[yapter]     > count: #0x0006
+[yapter]   type: 0x0011
+[yapter]   self: 1100060030000600628C400000000000
+[yapter]   > load sba-file as module.
+[yapter] > *0x00007F3A3517C0B0 -> *0x0000000000400DDE
+[yapter] > *0x00007F3A3517C0B8 -> *0x0000000000400E7F
+[yapter] > *0x00007F3A3517C0C0 -> *0x000000000040889A
+[yapter] > *0x00007F3A3517C0C8 -> *0x0000000000400EDC
+[yapter] > *0x00007F3A3517C0D0 -> *0x0000000000400E5D
+[yapter] > *0x00007F3A3517C0D8 -> *0x0000000000400F3D
+[yapter]   type: 0x000B
+[yapter]   self: 0B00110073796D626306000000000000
+[yapter]   > just a bunch of symbols.
+[yapter]     > symbols:
+[yapter]       > *0x00007F3A3517C0E0 -> 00000000004096C5 -> close
+[yapter]       > *0x00007F3A3517C0E8 -> 00000000004096CC -> debug
+[yapter]       > *0x00007F3A3517C0F0 -> 00000000004096D3 -> get
+[yapter]       > *0x00007F3A3517C0F8 -> 00000000004096D8 -> getByte
+[yapter]       > *0x00007F3A3517C100 -> 00000000004096E1 -> getChar
+[yapter]       > *0x00007F3A3517C108 -> 00000000004096EA -> getDWord
+[yapter]       > *0x00007F3A3517C110 -> 00000000004096F4 -> getLength
+[yapter]       > *0x00007F3A3517C118 -> 00000000004096FF -> getObject
+[yapter]       > *0x00007F3A3517C120 -> 000000000040970A -> getQWord
+[yapter]       > *0x00007F3A3517C128 -> 0000000000409714 -> getString
+[yapter]       > *0x00007F3A3517C130 -> 000000000040971F -> getTo
+[yapter]       > *0x00007F3A3517C138 -> 0000000000409726 -> getUTF8
+[yapter]       > *0x00007F3A3517C140 -> 000000000040972F -> getWord
+[yapter]       > *0x00007F3A3517C148 -> 0000000000409738 -> open
+[yapter]       > *0x00007F3A3517C150 -> 000000000040973E -> seek
+[yapter]       > *0x00007F3A3517C158 -> 0000000000409744 -> seekBack
+[yapter]       > *0x00007F3A3517C160 -> 000000000040974E -> seekBase
+[yapter]     > here:  *0x00007F3A3517C0E0
+[yapter]     > size:   0x0093
+[yapter]     > resv:   0x0088
+[yapter]     > count: #0x0011
+[yapter]   type: 0x0011
+[yapter]   self: 11000800880011006B8D400000000000
+[yapter]   > load sba-file as module.
+[yapter] > *0x00007F3A3517C168 -> *0x0000000000401E17
+[yapter] > *0x00007F3A3517C170 -> *0x0000000000401F96
+[yapter] > *0x00007F3A3517C178 -> *0x00000000004024EA
+[yapter] > *0x00007F3A3517C180 -> *0x0000000000402472
+[yapter] > *0x00007F3A3517C188 -> *0x0000000000402485
+[yapter] > *0x00007F3A3517C190 -> *0x00000000004024C3
+[yapter] > *0x00007F3A3517C198 -> *0x00000000004024AE
+[yapter] > *0x00007F3A3517C1A0 -> *0x0000000000402528
+[yapter] > *0x00007F3A3517C1A8 -> *0x00000000004024D6
+[yapter] > *0x00007F3A3517C1B0 -> *0x0000000000402552
+[yapter] > *0x00007F3A3517C1B8 -> *0x00000000004024F1
+[yapter] > *0x00007F3A3517C1C0 -> *0x000000000040258A
+[yapter] > *0x00007F3A3517C1C8 -> *0x000000000040249A
+[yapter] > *0x00007F3A3517C1D0 -> *0x0000000000401EED
+[yapter] > *0x00007F3A3517C1D8 -> *0x00000000004026B3
+[yapter] > *0x00007F3A3517C1E0 -> *0x00000000004026F3
+[yapter] > *0x00007F3A3517C1E8 -> *0x00000000004026D1
+[yapter]   type: 0x000B
+[yapter]   self: 0B00040073796D62FD06000000000000
+[yapter]   > just a bunch of symbols.
+[yapter]     > symbols:
+[yapter]       > *0x00007F3A3517C1F0 -> 0000000000409758 -> init
+[yapter]       > *0x00007F3A3517C1F8 -> 000000000040975E -> fail
+[yapter]       > *0x00007F3A3517C200 -> 0000000000409764 -> open
+[yapter]       > *0x00007F3A3517C208 -> 000000000040976A -> read
+[yapter]     > here:  *0x00007F3A3517C1F0
+[yapter]     > size:   0x0018
+[yapter]     > resv:   0x0020
+[yapter]     > count: #0x0004
+[yapter]   type: 0x0011
+[yapter]   self: 11000A0020000400748E400000000000
+[yapter]   > load sba-file as module.
+[files] *file:            *0x0000000000408E74
+[files] fd:                0x0000000000000006
+[files] name:              »yapic«
+[files] *name:            *0x0000000000408E6D
+[files] *buffer:          *0x0000000000000000
+[files] *position:        *0x0000000000000000
+[files] *offset:          *0x0000000000000000
+[files] next->:           *0x0000000000408D6B
+[files] <-last:           *0x00000000004090BB
+[files] == yapters ==
+[files] > ytable:         *0x00007F3A35176000
+[files] > ycontent:       *0x0000000000000000
+[files] > ysymbols/yid:   *0x00007F3A3517D0A0
+[files] > ypointers:      *0x0000000000000000
+[files] > ycount:          0x0000
+[files] > ycuid:           0x0000
+[files] > ysize:           0x1000
+[files] > ystate:          0x0021
+[files] size:              0x00000000000005C3
+[files] a-time:            0x0000000057686A36
+[files] a-time_nsec:       0x000000001B476540
+[files] m-time:            0x0000000056FA6EFA
+[files] m-time_nsec:       0x000000002300AAE5
+[files] c-time:            0x0000000056FA6EFA
+[files] c-time_nsec:       0x000000002300AAE5
+#!sba64
+#a=_sivizius
+#b=ascii\n
+#c=2015-03-11_03:08:57
+#d=2016-03-29_14:03:06
+#v=0.9.1.0
+ <TYPE>          %CUID   #TYPE  #SIZE  #RESV  #MISC  @SELF
+<x86_64-code>   %0x0001 0x001B 0x01E7 0x6D61 0x6464 0x00000000000000C0
+<pointers>      %0x0002 0x000C 0x0001 0x702A 0x7274 0x0000000000000541
+<buffers>       %0x0003 0x0005 0x0010 0x622A 0x6675 0x00000000000002A7
+<symbols>       %0x0004 0x000B 0x000F 0x7973 0x626D 0x00000000000003DB
+<module>        %0x0005 0x0011 0x0004 0x6F6C 0x6461 0x00000000000003D2
+<symbols>       %0x0006 0x000B 0x0006 0x7973 0x626D 0x0000000000000458
+<module>        %0x0007 0x0011 0x0006 0x6F6C 0x6461 0x0000000000000452
+<symbols>       %0x0008 0x000B 0x0011 0x7973 0x626D 0x0000000000000496
+<module>        %0x0009 0x0011 0x0008 0x6F6C 0x6461 0x000000000000048F
+<symbols>       %0x000A 0x000B 0x0004 0x7973 0x626D 0x0000000000000529
+<pointers>      %0x000B 0x000C 0x0004 0x702A 0x7274 0x0000000000000549
+<final>         %0x000C 0x0000 0x000A 0x000B 0x0000 0x746E65746E6F6379
+[yapter]   > here:  *0x00007F3A35174000
+[yapter]   > resv:   0x0000000000002000
+[yapter]   > stop:  *0x00007F3A35176000
+[yapter] load:
+[yapter]   type: 0x001B
+[yapter]   self: 1B00E70100106464C000000000000000
+[yapter]   > 64bit x86-code.
+[yapter]     > code:
+0x0018 F8C34809F60F88220100004883FE010F8718010000505351524157575648C7C1400000004831D2FF150B1100004D09E4740549897C24024C89670A4989FC5E5F ..H...."...H.........PSQRAWWVH..@...H1.......M..t.I.|$.L.g.I..^_
+0x0058 415F66418974242E49C744241A0000000049C74424220000000041C744242A00000000488D05960F0000FF24F05A595B58F8C34883EF024D31C94D31C04D31D2 A_fA.t$.I.D$.....I.D$"....A.D$*....H.......$.ZY[X..H...M1.M1.M1.
+0x0098 48C7C20000000048C7C69CFFFFFFFF1534120000488B05E51100004D897C24324989442412EBC64D31C94D31C04D31D248C7C20000000048C7C69CFFFFFFFF15 H......H........4...H......M.|$2I.D$...M1.M1.M1.H......H........
+0x00D8 04120000488B05ED1100004D897C24324989442412EB9641FF542412418944242A48C7C6FFFFFFFF4831FF4883F80A490F45742422400F94C748FFC649017C24 ....H......M.|$2I.D$...A.T$.A.D$*H......H1.H...I.Et$"@...H..I.|$
+0x0118 1A4989742422C3498D74241A48C7C708000000FF15A7100000498D74242248C7C708000000FF1595100000F8C3488B35D40E0000480FB756FEFF158910000048 .I.t$".I.t$.H............I.t$"H..............H.5....H..V.......H
+0x0158 8B35020F0000480FB756FEFF1577100000F9C3F9C3488B35AC0E0000480FB756FEFF1561100000488B35F20E0000480FB756FEFF154F100000498D74242A48C7 .5....H..V...w.......H.5....H..V...a...H.5....H..V...O...I.t$*H.
+0x0198 C201000000FF153D100000488B35D60E0000480FB756FEFF152B100000498D74242248C7C708000000FF1511100000488B35BA0E0000480FB756FEFF15071000 .......=...H.5....H..V...+...I.t$"H............H.5....H..V......
+0x01D8 00498D74241A48C7C708000000FF15ED0F0000488B35460E0000480FB756FEFF15E30F0000F9C300000000000000000000000000000000000000000000000000 .I.t$.H............H.5F...H..V..................................
+[yapter]     > from:  @0x00000000000000C0
+[yapter]     > here:  *0x00007F3A35174000
+[yapter]     > size:   0x01E7
+[yapter]     > resv:   0x1000
+[yapter]   type: 0x000C
+[yapter]   self: 0C0001002A7074724105000000000000
+[yapter]   > just a bunch of pointers.
+[yapter]     > pointers:
+[yapter]       > *0x00007F3A35175000 -> *0x00007F3A35174073
+[yapter]     > here:  *0x00007F3A35175000
+[yapter]     > size:   0x0008
+[yapter]     > resv:   0x0008
+[yapter]     > count: #0x0001
+[yapter]   type: 0x0005
+[yapter]   self: 050010002A627566A702000000000000
+[yapter]   > load some buffers.
+[yapter]     > buffers:
+[yapter]       > *0x00007F3A35175008 -> 0000000000409A8C -> [yapic] 
+[yapter]       > *0x00007F3A35175010 -> 0000000000409A96 -> [yapic] fail: 
+[yapter]       > *0x00007F3A35175018 -> 0000000000409AA6 ->  
+[yapter]       > *0x00007F3A35175020 -> 0000000000409AA9 -> 
+
+[yapter]       > *0x00007F3A35175028 -> 0000000000409AAC -> == Yet Another Parser, Interpreter and Compiler. Its EPIC! ==
+
+[yapter]       > *0x00007F3A35175030 -> 0000000000409AEC -> parsing file...
+
+[yapter]       > *0x00007F3A35175038 -> 0000000000409AFE -> unexspected character!
+
+[yapter]       > *0x00007F3A35175040 -> 0000000000409B17 -> unexspected end of file!
+
+[yapter]       > *0x00007F3A35175048 -> 0000000000409B32 -> unknown source!
+
+[yapter]       > *0x00007F3A35175050 -> 0000000000409B44 -> not implemented yet :-/!
+
+[yapter]       > *0x00007F3A35175058 -> 0000000000409B5F -> parsing file was successfull!
+
+[yapter]       > *0x00007F3A35175060 -> 0000000000409B7F -> char: »
+[yapter]       > *0x00007F3A35175068 -> 0000000000409B89 -> « at pos 0x
+[yapter]       > *0x00007F3A35175070 -> 0000000000409B97 ->  on line 0x
+[yapter]       > *0x00007F3A35175078 -> 0000000000409BA4 ->  in file »
+[yapter]       > *0x00007F3A35175080 -> 0000000000409BB1 -> «.
+
+[yapter]     > here:  *0x00007F3A35175008
+[yapter]     > size:   0x012B
+[yapter]     > resv:   0x0080
+[yapter]     > count: #0x0010
+[yapter]   type: 0x000B
+[yapter]   self: 0B000F0073796D62DB03000000000000
+[yapter]   > just a bunch of symbols.
+[yapter]     > symbols:
+[yapter]       > *0x00007F3A35175088 -> 0000000000409BB7 -> clone
+[yapter]       > *0x00007F3A35175090 -> 0000000000409BBE -> debug
+[yapter]       > *0x00007F3A35175098 -> 0000000000409BC5 -> delete
+[yapter]       > *0x00007F3A351750A0 -> 0000000000409BCD -> echo
+[yapter]       > *0x00007F3A351750A8 -> 0000000000409BD3 -> echo0
+[yapter]       > *0x00007F3A351750B0 -> 0000000000409BDA -> extend
+[yapter]       > *0x00007F3A351750B8 -> 0000000000409BE2 -> get
+[yapter]       > *0x00007F3A351750C0 -> 0000000000409BE7 -> new
+[yapter]       > *0x00007F3A351750C8 -> 0000000000409BEC -> putByte
+[yapter]       > *0x00007F3A351750D0 -> 0000000000409BF5 -> putDWord
+[yapter]       > *0x00007F3A351750D8 -> 0000000000409BFF -> putQWord
+[yapter]       > *0x00007F3A351750E0 -> 0000000000409C09 -> putWord
+[yapter]       > *0x00007F3A351750E8 -> 0000000000409C12 -> revive
+[yapter]       > *0x00007F3A351750F0 -> 0000000000409C1A -> store
+[yapter]       > *0x00007F3A351750F8 -> 0000000000409C21 -> wastepicker
+[yapter]     > here:  *0x00007F3A35175088
+[yapter]     > size:   0x0077
+[yapter]     > resv:   0x0078
+[yapter]     > count: #0x000F
+[yapter]   type: 0x0011
+[yapter]   self: 1100040078000F007797400000000000
+[yapter]   > load sba-file as module.
+[yapter] > *0x00007F3A35175100 -> *0x00000000004002A8
+[yapter] > *0x00007F3A35175108 -> *0x00000000004002DA
+[yapter] > *0x00007F3A35175110 -> *0x000000000040063C
+[yapter] > *0x00007F3A35175118 -> *0x00000000004006D6
+[yapter] > *0x00007F3A35175120 -> *0x00000000004006FE
+[yapter] > *0x00007F3A35175128 -> *0x0000000000400727
+[yapter] > *0x00007F3A35175130 -> *0x00000000004007CC
+[yapter] > *0x00007F3A35175138 -> *0x000000000040085A
+[yapter] > *0x00007F3A35175140 -> *0x0000000000400A43
+[yapter] > *0x00007F3A35175148 -> *0x0000000000400B6B
+[yapter] > *0x00007F3A35175150 -> *0x0000000000400C06
+[yapter] > *0x00007F3A35175158 -> *0x0000000000400ACF
+[yapter] > *0x00007F3A35175160 -> *0x0000000000400CA2
+[yapter] > *0x00007F3A35175168 -> *0x0000000000400CEC
+[yapter] > *0x00007F3A35175170 -> *0x0000000000400D10
+[yapter]   type: 0x000B
+[yapter]   self: 0B00060073796D625804000000000000
+[yapter]   > just a bunch of symbols.
+[yapter]     > symbols:
+[yapter]       > *0x00007F3A35175178 -> 0000000000409C2E -> error
+[yapter]       > *0x00007F3A35175180 -> 0000000000409C35 -> hexBuffer
+[yapter]       > *0x00007F3A35175188 -> 0000000000409C40 -> hexRegister
+[yapter]       > *0x00007F3A35175190 -> 0000000000409C4D -> hexValue
+[yapter]       > *0x00007F3A35175198 -> 0000000000409C57 -> print
+[yapter]       > *0x00007F3A351751A0 -> 0000000000409C5E -> state
+[yapter]     > here:  *0x00007F3A35175178
+[yapter]     > size:   0x0037
+[yapter]     > resv:   0x0030
+[yapter]     > count: #0x0006
+[yapter]   type: 0x0011
+[yapter]   self: 11000600300006007F98400000000000
+[yapter]   > load sba-file as module.
+[yapter] > *0x00007F3A351751A8 -> *0x0000000000400DDE
+[yapter] > *0x00007F3A351751B0 -> *0x0000000000400E7F
+[yapter] > *0x00007F3A351751B8 -> *0x000000000040889A
+[yapter] > *0x00007F3A351751C0 -> *0x0000000000400EDC
+[yapter] > *0x00007F3A351751C8 -> *0x0000000000400E5D
+[yapter] > *0x00007F3A351751D0 -> *0x0000000000400F3D
+[yapter]   type: 0x000B
+[yapter]   self: 0B00110073796D629604000000000000
+[yapter]   > just a bunch of symbols.
+[yapter]     > symbols:
+[yapter]       > *0x00007F3A351751D8 -> 0000000000409C65 -> close
+[yapter]       > *0x00007F3A351751E0 -> 0000000000409C6C -> debug
+[yapter]       > *0x00007F3A351751E8 -> 0000000000409C73 -> get
+[yapter]       > *0x00007F3A351751F0 -> 0000000000409C78 -> getByte
+[yapter]       > *0x00007F3A351751F8 -> 0000000000409C81 -> getChar
+[yapter]       > *0x00007F3A35175200 -> 0000000000409C8A -> getDWord
+[yapter]       > *0x00007F3A35175208 -> 0000000000409C94 -> getLength
+[yapter]       > *0x00007F3A35175210 -> 0000000000409C9F -> getObject
+[yapter]       > *0x00007F3A35175218 -> 0000000000409CAA -> getQWord
+[yapter]       > *0x00007F3A35175220 -> 0000000000409CB4 -> getString
+[yapter]       > *0x00007F3A35175228 -> 0000000000409CBF -> getTo
+[yapter]       > *0x00007F3A35175230 -> 0000000000409CC6 -> getUTF8
+[yapter]       > *0x00007F3A35175238 -> 0000000000409CCF -> getWord
+[yapter]       > *0x00007F3A35175240 -> 0000000000409CD8 -> open
+[yapter]       > *0x00007F3A35175248 -> 0000000000409CDE -> seek
+[yapter]       > *0x00007F3A35175250 -> 0000000000409CE4 -> seekBack
+[yapter]       > *0x00007F3A35175258 -> 0000000000409CEE -> seekBase
+[yapter]     > here:  *0x00007F3A351751D8
+[yapter]     > size:   0x0093
+[yapter]     > resv:   0x0088
+[yapter]     > count: #0x0011
+[yapter]   type: 0x0011
+[yapter]   self: 11000800880011008899400000000000
+[yapter]   > load sba-file as module.
+[yapter] > *0x00007F3A35175260 -> *0x0000000000401E17
+[yapter] > *0x00007F3A35175268 -> *0x0000000000401F96
+[yapter] > *0x00007F3A35175270 -> *0x00000000004024EA
+[yapter] > *0x00007F3A35175278 -> *0x0000000000402472
+[yapter] > *0x00007F3A35175280 -> *0x0000000000402485
+[yapter] > *0x00007F3A35175288 -> *0x00000000004024C3
+[yapter] > *0x00007F3A35175290 -> *0x00000000004024AE
+[yapter] > *0x00007F3A35175298 -> *0x0000000000402528
+[yapter] > *0x00007F3A351752A0 -> *0x00000000004024D6
+[yapter] > *0x00007F3A351752A8 -> *0x0000000000402552
+[yapter] > *0x00007F3A351752B0 -> *0x00000000004024F1
+[yapter] > *0x00007F3A351752B8 -> *0x000000000040258A
+[yapter] > *0x00007F3A351752C0 -> *0x000000000040249A
+[yapter] > *0x00007F3A351752C8 -> *0x0000000000401EED
+[yapter] > *0x00007F3A351752D0 -> *0x00000000004026B3
+[yapter] > *0x00007F3A351752D8 -> *0x00000000004026F3
+[yapter] > *0x00007F3A351752E0 -> *0x00000000004026D1
+[yapter]   type: 0x000B
+[yapter]   self: 0B00040073796D622905000000000000
+[yapter]   > just a bunch of symbols.
+[yapter]     > symbols:
+[yapter]       > *0x00007F3A351752E8 -> 0000000000409CF8 -> init
+[yapter]       > *0x00007F3A351752F0 -> 0000000000409CFE -> fail
+[yapter]       > *0x00007F3A351752F8 -> 0000000000409D04 -> open
+[yapter]       > *0x00007F3A35175300 -> 0000000000409D0A -> read
+[yapter]     > here:  *0x00007F3A351752E8
+[yapter]     > size:   0x0018
+[yapter]     > resv:   0x0020
+[yapter]     > count: #0x0004
+[yapter]   type: 0x000C
+[yapter]   self: 0C0004002A7074724905000000000000
+[yapter]   > just a bunch of pointers.
+[yapter]     > pointers:
+[yapter]       > *0x00007F3A35175308 -> *0x00007F3A35174000
+[yapter]       > *0x00007F3A35175310 -> *0x00007F3A35174155
+[yapter]       > *0x00007F3A35175318 -> *0x00007F3A35174002
+[yapter]       > *0x00007F3A35175320 -> *0x00007F3A351740D7
+[yapter]     > here:  *0x00007F3A35175308
+[yapter]     > size:   0x0020
+[yapter]     > resv:   0x0020
+[yapter]     > count: #0x0004
+[yapter]   type: 0x0000
+[yapter]   self: 00000A000B00000079636F6E74656E74
+[yapter]   > final chapter, there are no more yapters left.
+[yapter]     > cuid:  %0x000A
+[yapter]     > count: #0x0000
+[yapter]     > resv:   0x000B
+[yapter]     > assign:
+[yapter]       > *0x00007F3A35174000 -> init
+[yapter]       > *0x00007F3A35174155 -> fail
+[yapter]       > *0x00007F3A35174002 -> open
+[yapter]       > *0x00007F3A351740D7 -> read
+[yapter] < return
+[yapter] > *0x00007F3A3517C210 -> *0x00007F3A35174000
+[yapter] > *0x00007F3A3517C218 -> *0x00007F3A35174155
+[yapter] > *0x00007F3A3517C220 -> *0x00007F3A35174002
+[yapter] > *0x00007F3A3517C228 -> *0x00007F3A351740D7
+[yapter]   type: 0x0000
+[yapter]   self: 000000000000010079636F6E74656E74
+[yapter]   > final chapter, there are no more yapters left.
+[yapter] == execution ==
+[yapla] == Yet Another Programming Language. Again! ==
+[yapla] Input File: »/home/sivizius/sba/src0/yapla/yapla.sba«
+[yapla] parsing file....
+[yapla] its an sba-file \o/
+[yapla] its yet another instruction code \o/
+[yapla] done
+
+[echo] *blink*
+
+[echo] *blink*
+
+[echo] *blink*

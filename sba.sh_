@@ -1,0 +1,33 @@
+#!/bin/bash
+#a=_sivizius
+#b=ascii\n
+#c=2016-02-10_17:21:05_UTC+0100
+#d=2016-08-22_04:35:46_UTC+0200
+#f=/sba/src/yasic/sba.sh
+#l=bash/en
+#p=/sba/doc/licenses/LICENCE.txt
+#t=sba-script for yasic
+#v=0.9.1.0-»Amanita muscaria«
+
+if [[ -d "src/yasic/" ]]; then cd "src/yasic/"; fi
+case "$1" in
+  "edit")
+    ./edit.sh
+  ;;
+  "exec")
+    ./exec.sh
+  ;;
+  "make")
+    ./make.sh
+  ;;
+  "")
+    echo "options"
+    echo "  »edit« to edit project"
+    echo "  »exec« to execute project"
+    echo "  »make« to compile project"
+  ;;
+  *)
+    echo "unknown option »$1«!"
+  ;;
+esac
+

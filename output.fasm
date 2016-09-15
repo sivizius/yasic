@@ -1,0 +1,2338 @@
+__debug__                               fix                                     true
+
+__tmp2__                                fix                                     r12
+__tmp3__                                fix                                     r13
+__tmp4__                                fix                                     r14
+__tmp5__                                fix                                     r15
+__tmpA__                                fix                                     rax
+__tmpB__                                fix                                     rbx
+
+__cookies__                             fix                                     r13
+
+__elder__                               fix                                     r14
+__yentry__                              fix                                     r14
+
+__page__                                fix                                     r15
+__file__                                fix                                     r15
+
+;( import )
+;{
+  include                               'libs/main.fasm'
+  xstat                                 'main'
+  xstat                                 'on'
+  xstat                                 'yapter'
+  stat                                  'constants'
+  yalib                                 'buffers'
+  yalib                                 'cookies'
+  yalib                                 'echo'
+  yalib                                 'elder'
+  yalib                                 'files'
+  yalib                                 'sasha'
+  yalib                                 'yapic'
+;}
+macro symbol_add                        name,                                   callback
+{
+  cookies_hash                          symbol.str_#name
+  cookies_insert
+  mov                                   dword [ symbol.uid_#name ],             eax
+  lea                                   rax,                                    [ callback ]
+  mov                                   qword [ symbol.fun_#name ],             rax
+}
+macro symbol_lst                        name
+{
+  symbol.uid_#name                      aq                                      1
+  symbol.fun_#name                      aq                                      1
+}
+length@__elder__                        equ                                     word  [ __elder__ +  0 ]
+type@__elder__                          equ                                     word  [ __elder__ +  2 ]
+uid@__elder__                           equ                                     dword [ __elder__ +  4 ]
+down@__elder__                          equ                                     qword [ __elder__ +  8 ]
+east@__elder__                          equ                                     qword [ __elder__ + 16 ]
+west@__elder__                          equ                                     qword [ __elder__ + 24 ]
+next@__elder__                          equ                                     qword [ __elder__ + 16 ]
+operation@__elder__                     equ                                     qword [ __elder__ + 24 ]
+file@__elder__                          equ                                     qword [ __elder__ + 32 ]
+input@__elder__                         equ                                     qword [ __elder__ + 32 ]
+offs@__elder__                          equ                                     dword [ __elder__ + 40 ]
+line@__elder__                          equ                                     dword [ __elder__ + 44 ]
+args@__elder__                          equ                                     qword [ __elder__ + 16 ]
+blocks@__elder__                        equ                                     qword [ __elder__ + 24 ]
+list@__elder__                          equ                                     qword [ __elder__ + 16 ]
+context@__elder__                       equ                                     qword [ __elder__ + 24 ]
+expression@__elder__                    equ                                     qword [ __elder__ + 24 ]
+size@__elder__                          equ                                     dword [ __elder__ +  4 ]
+value@__elder__                         equ                                     qword [ __elder__ + 16 ]
+pointer@__elder__                       equ                                     qword [ __elder__ + 16 ]
+remark@__elder__                        equ                                     qword [ __elder__ + 16 ]
+
+macro elder_op                          here
+{
+  buffers_new                           (( 6 * 8 ) - 2 )
+  match                                 any,                                    here
+  \{
+    mov                                 here#@__elder__,                        rdi
+    mov                                 qword [ rdi + 8 ],                      __elder__
+    mov                                 __elder__,                              rdi
+  \}
+}
+macro elder_remark                      here
+{
+  buffers_new                           (( 3 * 8 ) - 2 )
+  match                                 any,                                    here
+  \{
+    mov                                 here#@__elder__,                        rdi
+    mov                                 qword [ rdi + 8 ],                      __elder__
+    mov                                 __elder__,                              rdi
+  \}
+}
+macro elder_call                        here
+{
+  buffers_new                           (( 4 * 8 ) - 2 )
+  match                                 any,                                    here
+  \{
+    mov                                 here#@__elder__,                        rdi
+    mov                                 qword [ rdi + 8 ],                      __elder__
+    mov                                 __elder__,                              rdi
+  \}
+}
+macro elder_block                       here
+{
+  buffers_new                           (( 4 * 8 ) - 2 )
+  match                                 any,                                    here
+  \{
+    mov                                 here#@__elder__,                        rdi
+    mov                                 qword [ rdi + 8 ],                      __elder__
+    mov                                 __elder__,                              rdi
+  \}
+}
+macro elder_arg                         here
+{
+  buffers_new                           (( 4 * 8 ) - 2 )
+  match                                 any,                                    here
+  \{
+    mov                                 here#@__elder__,                        rdi
+    mov                                 qword [ rdi + 8 ],                      __elder__
+    mov                                 __elder__,                              rdi
+  \}
+}
+macro elder_value                       here
+{
+  buffers_new                           (( 3 * 8 ) - 2 )
+  match                                 any,                                    here
+  \{
+    mov                                 here#@__elder__,                        rdi
+    mov                                 qword [ rdi + 8 ],                      __elder__
+    mov                                 __elder__,                              rdi
+  \}
+}
+macro elder_expr                        here
+{
+  buffers_new                           (( 4 * 8 ) - 2 )
+  match                                 any,                                    here
+  \{
+    mov                                 here#@__elder__,                        rdi
+    mov                                 qword [ rdi + 8 ],                      __elder__
+    mov                                 __elder__,                              rdi
+  \}
+}
+macro elder_symbol                      here
+{
+  buffers_new                           (( 2 * 8 ) - 2 )
+  match                                 any,                                    here
+  \{
+    mov                                 here#@__elder__,                        rdi
+    mov                                 qword [ rdi + 8 ],                      __elder__
+    mov                                 __elder__,                              rdi
+  \}
+}
+
+sbaExec64                               'sbaHeader.txt'
+sbaCode
+{
+  _start:
+    push                                rbp
+    mov                                 rbp,                                    rsp
+    mov                                 rax,                                    qword [ random ]
+    lea                                 lib1arg,                                [ rijndael.sbox ]
+    sasha0_init                         ,                                       rax
+    cookies_init
+    file_open                           [ script ],                             file_modeR
+    jc                                  .failInputFile
+    elder_block
+    mov                                 __elder__,                              rdi
+    mov                                 qword [ elder.trunk ],                  rdi
+    call                                yasic
+      echo_put                          [ msg_0000000000000000 ]                ;: »[yapla] done!«
+      pop                               rbp
+      clc
+      ret
+    .failInputFile:
+      echo_put                          [ msg_0000000000000001 ]                ;: »[yapla] fail: could not read input-file!«
+      ret
+    .failCookies:
+      echo_put                          [ msg_0000000000000002 ]                ;: »[yapla] fail: cookies are gone!«
+      ret
+    echo_put                            [ msg_0000000000000003 ]                ;: »[yapla] == Yet Another Programming Language. Again! ==«
+    echo_put                            [ msg_0000000000000004 ]                ;: »[yapla] Input File: »/home/sivizius/sba/src0/yapla/yapla.sba««
+    echo_put                            [ msg_0000000000000005 ]                ;: »[yapla] parsing file....«
+    yasic:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      or                                rax,                                    rax
+      jnz                               .close_0000000000000000
+      .begin_0000000000000000:
+      ;{
+        ret
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( yasic.sTabulator )
+      jb                                .group_0000000000000001_0000
+      cmp                               rax,                                    ( yasic.sCarriageReturn )
+      jb                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( ' ' )
+      jne                               .group_0000000000000001_0000
+      .range_0000000000000001_0000_0000:
+      .begin_0000000000000001:
+      ;{
+        jmp                             yasic
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+      cmp                               rax,                                    ( '/' )
+      jne                               .group_0000000000000002_0000
+      .begin_0000000000000002:
+      ;{
+        call                            qword [ files.getUTF8 ]
+        cmp                             rax,                                    ( '/' )
+        jne                             .group_0000000000000003_0000
+        .begin_0000000000000003:
+        ;{
+          echo_put                      [ msg_0000000000000006 ]                ;: »call remark_line«
+          elder_remark                  next
+          call                          remark_line
+          jmp                           yasic
+        ;}
+        .close_0000000000000003:
+        .group_0000000000000003_0000:
+        cmp                             rax,                                    ( '*' )
+        jne                             .group_0000000000000004_0000
+        .begin_0000000000000004:
+        ;{
+          echo_put                      [ msg_0000000000000007 ]                ;: »call remark_c«
+          call                          remark_c
+          jmp                           yasic
+        ;}
+        .close_0000000000000004:
+        .group_0000000000000004_0000:
+        push                            rax
+          echo_put                      [ msg_0000000000000008 ]                ;: »return remark«
+        pop                             rax
+      ;}
+      .close_0000000000000002:
+      .group_0000000000000002_0000:
+      cmp                               rax,                                    ( '-' )
+      jne                               .group_0000000000000005_0000
+      .begin_0000000000000005:
+      ;{
+        call                            qword [ files.getUTF8 ]
+        cmp                             rax,                                    ( '-' )
+        jne                             .group_0000000000000006_0000
+        .begin_0000000000000006:
+        ;{
+          call                          remark_line
+        ;}
+        .close_0000000000000006:
+        .group_0000000000000006_0000:
+      ;}
+      .close_0000000000000005:
+      .group_0000000000000005_0000:
+      cmp                               rax,                                    ( '#' )
+      jne                               .group_0000000000000007_0000
+      .begin_0000000000000007:
+      ;{
+        echo_put                        [ msg_0000000000000009 ]                ;: »call remark_line«
+        call                            remark_line
+        jmp                             yasic
+      ;}
+      .close_0000000000000007:
+      .group_0000000000000007_0000:
+      cmp                               rax,                                    ( '_' )
+      je                                .begin_0000000000000008
+      call                              qword [ files.getUTF8 ]
+      or                                rax,                                    ( yasic.fCaseMask )
+      cmp                               rax,                                    ( 'a' )
+      jb                                .group_0000000000000008_0000
+      cmp                               rax,                                    ( 'z' )
+      ja                                .group_0000000000000008_0000
+      .range_0000000000000008_0000_0000:
+      .begin_0000000000000008:
+      ;{
+        cookies_new
+        jc                              _start.failCookies
+        echo_put                        [ msg_000000000000000a ]                ;: »jump name«
+        jmp                             name
+      ;}
+      .close_0000000000000008:
+      .group_0000000000000008_0000:
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    yasic_wait:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( yasic.sNewLine )
+      je                                .begin_0000000000000000
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( ';' )
+      jne                               .group_0000000000000000_0000
+      .begin_0000000000000000:
+      ;{
+        jmp                             yasic
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      or                                rax,                                    rax
+      jnz                               .close_0000000000000001
+      .begin_0000000000000001:
+      ;{
+        ret
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    name:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( '_' )
+      je                                .begin_0000000000000000
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( '0' )
+      jb                                .group_0000000000000000_0000
+      cmp                               rax,                                    ( '9' )
+      jb                                .range_0000000000000000_0000_0000
+      or                                rax,                                    ( yasic.fCaseMask )
+      cmp                               rax,                                    ( 'a' )
+      jb                                .group_0000000000000000_0000
+      cmp                               rax,                                    ( 'z' )
+      ja                                .group_0000000000000000_0000
+      .range_0000000000000000_0000_0000:
+      .begin_0000000000000000:
+      ;{
+        cookies_put
+        jc                              _start.failCookies
+        jmp                             name
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( '(' )
+      jne                               .group_0000000000000001_0000
+      .begin_0000000000000001:
+      ;{
+        cookies_fin
+        jc                              _start.failCookies
+        echo_put                        [ msg_000000000000000b ]                ;: »call function«
+        call                            function
+        jmp                             yasic_wait
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+      cmp                               rax,                                    ( yasic.sTabulator )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( ' ' )
+      jne                               .group_0000000000000002_0000
+      .range_0000000000000002_0000_0000:
+      .begin_0000000000000002:
+      ;{
+        jmp                             name_wait
+      ;}
+      .close_0000000000000002:
+      .group_0000000000000002_0000:
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    name_wait:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( yasic.sTabulator )
+      jb                                .group_0000000000000000_0000
+      cmp                               rax,                                    ( yasic.sCarriageReturn )
+      jb                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( ' ' )
+      jne                               .group_0000000000000000_0000
+      .range_0000000000000000_0000_0000:
+      .begin_0000000000000000:
+      ;{
+        jmp                             name_wait
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( '=' )
+      jne                               .group_0000000000000001_0000
+      .begin_0000000000000001:
+      ;{
+        cookies_fin
+        jc                              _start.failCookies
+        echo_put                        [ msg_000000000000000c ]                ;: »call expression«
+        call                            expression
+        cmp                             rax,                                    ';'
+        je                              yasic
+        cmp                             rax,                                    yasic.sNewLine
+        jne                             expression_fail
+        jmp                             yasic
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+      cmp                               rax,                                    ( '(' )
+      jne                               .group_0000000000000002_0000
+      .begin_0000000000000002:
+      ;{
+        cookies_fin
+        jc                              _start.failCookies
+        echo_put                        [ msg_000000000000000d ]                ;: »call function«
+        call                            function
+        jmp                             yasic_wait
+        ;lea rsi, [ known_symbols ]
+        ;lea rdi, [ known_symbols.stop ]
+        ;.loop:
+        ;  cmp rax, qword [ rsi ]
+        ;  je .found
+        ;  add rsi, 16
+        ;  cmp rsi, rdi
+        ;  je function
+        ;  jmp .loop
+        ;.found:
+        ;  call qword [ rsi + 8 ]
+      ;}
+      .close_0000000000000002:
+      .group_0000000000000002_0000:
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    function:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( ')' )
+      jne                               .group_0000000000000000_0000
+      .begin_0000000000000000:
+      ;{
+        ret
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      .begin_0000000000000001:
+      ;{
+        jmp                             function
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    expression:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( yasic.sTabulator )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( ' ' )
+      jne                               .group_0000000000000000_0000
+      .range_0000000000000000_0000_0000:
+      .begin_0000000000000000:
+      ;{
+        jmp                             expression
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( yasic.sQuotation )
+      jne                               .group_0000000000000001_0000
+      .begin_0000000000000001:
+      ;{
+        jmp                             expression_string
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+      cmp                               rax,                                    ( '0' )
+      jne                               .group_0000000000000002_0000
+      .begin_0000000000000002:
+      ;{
+        jmp                             expression_0
+      ;}
+      .close_0000000000000002:
+      .group_0000000000000002_0000:
+      cmp                               rax,                                    ( '1' )
+      jb                                .group_0000000000000003_0000
+      cmp                               rax,                                    ( '9' )
+      ja                                .group_0000000000000003_0000
+      .range_0000000000000003_0000_0000:
+      .begin_0000000000000003:
+      ;{
+        lea                             r9,                                     [ rax - '0' ]
+        lea                             r10,                                    [ rax - '0' ]
+        jmp                             expression_9
+      ;}
+      .close_0000000000000003:
+      .group_0000000000000003_0000:
+      cmp                               rax,                                    ( '_' )
+      je                                .begin_0000000000000004
+      call                              qword [ files.getUTF8 ]
+      or                                rax,                                    ( yasic.fCaseMask )
+      cmp                               rax,                                    ( 'a' )
+      jb                                .group_0000000000000004_0000
+      cmp                               rax,                                    ( 'z' )
+      ja                                .group_0000000000000004_0000
+      .range_0000000000000004_0000_0000:
+      .begin_0000000000000004:
+      ;{
+        cookies_new
+        jc                              _start.failCookies
+        jmp                             expression_var
+      ;}
+      .close_0000000000000004:
+      .group_0000000000000004_0000:
+      cmp                               rax,                                    ( '$' )
+      jne                               .group_0000000000000005_0000
+      .begin_0000000000000005:
+      ;{
+        jmp                             expression_0x
+      ;}
+      .close_0000000000000005:
+      .group_0000000000000005_0000:
+      cmp                               rax,                                    ( '(' )
+      jne                               .group_0000000000000006_0000
+      .begin_0000000000000006:
+      ;{
+        jmp                             expression
+      ;}
+      .close_0000000000000006:
+      .group_0000000000000006_0000:
+      cmp                               rax,                                    ( ')' )
+      jne                               .group_0000000000000007_0000
+      .begin_0000000000000007:
+      ;{
+        jmp                             expression
+      ;}
+      .close_0000000000000007:
+      .group_0000000000000007_0000:
+      ret
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    expression_string:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( yasic.sQuotation )
+      jne                               .group_0000000000000000_0000
+      .begin_0000000000000000:
+      ;{
+        jmp                             operator_wait
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( '\' )
+      jne                               .group_0000000000000001_0000
+      .begin_0000000000000001:
+      ;{
+        call                            qword [ files.getUTF8 ]
+        cmp                             rax,                                    ( 'a' )
+        jne                             .group_0000000000000002_0000
+        .begin_0000000000000002:
+        ;{
+          jmp                           expression_string
+        ;}
+        .close_0000000000000002:
+        .group_0000000000000002_0000:
+        cmp                             rax,                                    ( 'b' )
+        jne                             .group_0000000000000003_0000
+        .begin_0000000000000003:
+        ;{
+          jmp                           expression_string
+        ;}
+        .close_0000000000000003:
+        .group_0000000000000003_0000:
+        cmp                             rax,                                    ( 'e' )
+        jne                             .group_0000000000000004_0000
+        .begin_0000000000000004:
+        ;{
+          jmp                           expression_string
+        ;}
+        .close_0000000000000004:
+        .group_0000000000000004_0000:
+        cmp                             rax,                                    ( 'f' )
+        jne                             .group_0000000000000005_0000
+        .begin_0000000000000005:
+        ;{
+          jmp                           expression_string
+        ;}
+        .close_0000000000000005:
+        .group_0000000000000005_0000:
+        cmp                             rax,                                    ( 'n' )
+        jne                             .group_0000000000000006_0000
+        .begin_0000000000000006:
+        ;{
+          jmp                           expression_string
+        ;}
+        .close_0000000000000006:
+        .group_0000000000000006_0000:
+        cmp                             rax,                                    ( 'q' )
+        jne                             .group_0000000000000007_0000
+        .begin_0000000000000007:
+        ;{
+          jmp                           expression_string
+        ;}
+        .close_0000000000000007:
+        .group_0000000000000007_0000:
+        cmp                             rax,                                    ( 'Q' )
+        jne                             .group_0000000000000008_0000
+        .begin_0000000000000008:
+        ;{
+          jmp                           expression_string
+        ;}
+        .close_0000000000000008:
+        .group_0000000000000008_0000:
+        cmp                             rax,                                    ( 'r' )
+        jne                             .group_0000000000000009_0000
+        .begin_0000000000000009:
+        ;{
+          jmp                           expression_string
+        ;}
+        .close_0000000000000009:
+        .group_0000000000000009_0000:
+        cmp                             rax,                                    ( 't' )
+        jne                             .group_000000000000000a_0000
+        .begin_000000000000000a:
+        ;{
+          jmp                           expression_string
+        ;}
+        .close_000000000000000a:
+        .group_000000000000000a_0000:
+        cmp                             rax,                                    ( 'v' )
+        jne                             .group_000000000000000b_0000
+        .begin_000000000000000b:
+        ;{
+          jmp                           expression_string
+        ;}
+        .close_000000000000000b:
+        .group_000000000000000b_0000:
+        cmp                             rax,                                    ( yasic.sNewLine )
+        jne                             .group_000000000000000c_0000
+        .begin_000000000000000c:
+        ;{
+          jmp                           expression_string
+        ;}
+        .close_000000000000000c:
+        .group_000000000000000c_0000:
+        .begin_000000000000000d:
+        ;{
+          jmp                           expression_string
+        ;}
+        .close_000000000000000d:
+        .group_000000000000000d_0000:
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    expression_var:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( '_' )
+      je                                .begin_0000000000000000
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( '0' )
+      jb                                .group_0000000000000000_0000
+      cmp                               rax,                                    ( '9' )
+      jb                                .range_0000000000000000_0000_0000
+      or                                rax,                                    ( yasic.fCaseMask )
+      cmp                               rax,                                    ( 'a' )
+      jb                                .group_0000000000000000_0000
+      cmp                               rax,                                    ( 'z' )
+      ja                                .group_0000000000000000_0000
+      .range_0000000000000000_0000_0000:
+      .begin_0000000000000000:
+      ;{
+        cookies_put
+        jc                              _start.failCookies
+        jmp                             expression_var
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( '(' )
+      jne                               .group_0000000000000001_0000
+      .begin_0000000000000001:
+      ;{
+        cookies_fin
+        jc                              _start.failCookies
+        call                            expression
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+      cmp                               rax,                                    ( '!' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '#' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '$' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '%' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '&' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '*' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '+' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '-' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '.' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '/' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( ':' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '<' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '=' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '>' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '?' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '@' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '\' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '^' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '_' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '|' )
+      je                                .range_0000000000000002_0000_0000
+      cmp                               rax,                                    ( '~' )
+      jne                               .group_0000000000000002_0000
+      .range_0000000000000002_0000_0000:
+      .begin_0000000000000002:
+      ;{
+        cookies_fin
+        jc                              _start.failCookies
+        cookies_new
+        jc                              _start.failCookies
+        jmp                             operator
+      ;}
+      .close_0000000000000002:
+      .group_0000000000000002_0000:
+      cmp                               rax,                                    ( yasic.sTabulator )
+      je                                .range_0000000000000003_0000_0000
+      cmp                               rax,                                    ( ' ' )
+      jne                               .group_0000000000000003_0000
+      .range_0000000000000003_0000_0000:
+      .begin_0000000000000003:
+      ;{
+        cookies_fin
+        jc                              _start.failCookies
+        jmp                             expression_var_wait
+      ;}
+      .close_0000000000000003:
+      .group_0000000000000003_0000:
+      .begin_0000000000000004:
+      ;{
+        cookies_fin
+        jc                              _start.failCookies
+        ret
+      ;}
+      .close_0000000000000004:
+      .group_0000000000000004_0000:
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    expression_var_wait:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( yasic.sTabulator )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( ' ' )
+      jne                               .group_0000000000000000_0000
+      .range_0000000000000000_0000_0000:
+      .begin_0000000000000000:
+      ;{
+        jmp                             expression_var_wait
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( '!' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '#' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '$' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '%' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '&' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '*' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '+' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '-' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '.' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '/' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( ':' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '<' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '=' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '>' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '?' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '@' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '\' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '^' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '_' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '|' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '~' )
+      jne                               .group_0000000000000001_0000
+      .range_0000000000000001_0000_0000:
+      .begin_0000000000000001:
+      ;{
+        cookies_new
+        jc                              _start.failCookies
+        jmp                             operator
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+      cmp                               rax,                                    ( '(' )
+      jne                               .group_0000000000000002_0000
+      .begin_0000000000000002:
+      ;{
+        call                            expression
+      ;}
+      .close_0000000000000002:
+      .group_0000000000000002_0000:
+      .begin_0000000000000003:
+      ;{
+        ret
+      ;}
+      .close_0000000000000003:
+      .group_0000000000000003_0000:
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    expression_0:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( 'b' )
+      jne                               .group_0000000000000000_0000
+      .begin_0000000000000000:
+      ;{
+        lea                             r8,                                     [ rax - '0' ]
+        lea                             r10,                                    [ rax - '0' ]
+        jmp                             expression_0b
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( 'h' )
+      jne                               .group_0000000000000001_0000
+      .begin_0000000000000001:
+      ;{
+        null                            r10
+        jmp                             operator_wait
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+      cmp                               rax,                                    ( 'x' )
+      jne                               .group_0000000000000002_0000
+      .begin_0000000000000002:
+      ;{
+        null                            r10
+        jmp                             expression_0x
+      ;}
+      .close_0000000000000002:
+      .group_0000000000000002_0000:
+      cmp                               rax,                                    ( '0' )
+      jb                                .group_0000000000000003_0000
+      cmp                               rax,                                    ( '1' )
+      ja                                .group_0000000000000003_0000
+      .range_0000000000000003_0000_0000:
+      .begin_0000000000000003:
+      ;{
+        lea                             r8,                                     [ rax - '0' ]
+        lea                             r9,                                     [ rax - '0' ]
+        lea                             r10,                                    [ rax - '0' ]
+        jmp                             expression_01
+      ;}
+      .close_0000000000000003:
+      .group_0000000000000003_0000:
+      cmp                               rax,                                    ( '2' )
+      jb                                .group_0000000000000004_0000
+      cmp                               rax,                                    ( '7' )
+      ja                                .group_0000000000000004_0000
+      .range_0000000000000004_0000_0000:
+      .begin_0000000000000004:
+      ;{
+        lea                             r9,                                     [ rax - '0' ]
+        lea                             r10,                                    [ rax - '0' ]
+        jmp                             expression_07
+      ;}
+      .close_0000000000000004:
+      .group_0000000000000004_0000:
+      cmp                               rax,                                    ( '8' )
+      jb                                .group_0000000000000005_0000
+      cmp                               rax,                                    ( '9' )
+      ja                                .group_0000000000000005_0000
+      .range_0000000000000005_0000_0000:
+      .begin_0000000000000005:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - '0' ]
+        jmp                             expression_0f
+      ;}
+      .close_0000000000000005:
+      .group_0000000000000005_0000:
+      cmp                               rax,                                    ( 'A' )
+      jb                                .group_0000000000000006_0000
+      cmp                               rax,                                    ( 'F' )
+      ja                                .group_0000000000000006_0000
+      .range_0000000000000006_0000_0000:
+      .begin_0000000000000006:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - 'A' + 10 ]
+        jmp                             expression_0f
+      ;}
+      .close_0000000000000006:
+      .group_0000000000000006_0000:
+      cmp                               rax,                                    ( 'a' )
+      jb                                .group_0000000000000007_0000
+      cmp                               rax,                                    ( 'f' )
+      ja                                .group_0000000000000007_0000
+      .range_0000000000000007_0000_0000:
+      .begin_0000000000000007:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - 'a' + 10 ]
+        jmp                             expression_0f
+      ;}
+      .close_0000000000000007:
+      .group_0000000000000007_0000:
+      .begin_0000000000000008:
+      ;{
+        ret
+      ;}
+      .close_0000000000000008:
+      .group_0000000000000008_0000:
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    expression_01:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( 'b' )
+      jne                               .group_0000000000000000_0000
+      .begin_0000000000000000:
+      ;{
+        jmp                             expression_01b
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( 'h' )
+      jne                               .group_0000000000000001_0000
+      .begin_0000000000000001:
+      ;{
+        jmp                             operator_wait
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+      cmp                               rax,                                    ( 'o' )
+      jne                               .group_0000000000000002_0000
+      .begin_0000000000000002:
+      ;{
+        ;value = value8
+        jmp                             operator_wait
+      ;}
+      .close_0000000000000002:
+      .group_0000000000000002_0000:
+      cmp                               rax,                                    ( '0' )
+      jb                                .group_0000000000000003_0000
+      cmp                               rax,                                    ( '1' )
+      ja                                .group_0000000000000003_0000
+      .range_0000000000000003_0000_0000:
+      .begin_0000000000000003:
+      ;{
+        lea                             r8,                                     [ r8  * 2 + rax - '0' ]
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r9,                                     [ r9  * 8 + rax - '0' ]
+        lea                             r10,                                    [ r10 * 4 + rax - '0' ]
+        jmp                             expression_01
+      ;}
+      .close_0000000000000003:
+      .group_0000000000000003_0000:
+      cmp                               rax,                                    ( '2' )
+      jb                                .group_0000000000000004_0000
+      cmp                               rax,                                    ( '7' )
+      ja                                .group_0000000000000004_0000
+      .range_0000000000000004_0000_0000:
+      .begin_0000000000000004:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r9,                                     [ r9  * 8 + rax - '0' ]
+        lea                             r10,                                    [ r10 * 4 + rax - '0' ]
+        jmp                             expression_07
+      ;}
+      .close_0000000000000004:
+      .group_0000000000000004_0000:
+      cmp                               rax,                                    ( '8' )
+      jb                                .group_0000000000000005_0000
+      cmp                               rax,                                    ( '9' )
+      ja                                .group_0000000000000005_0000
+      .range_0000000000000005_0000_0000:
+      .begin_0000000000000005:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - '0' ]
+        jmp                             expression_0f
+      ;}
+      .close_0000000000000005:
+      .group_0000000000000005_0000:
+      cmp                               rax,                                    ( 'A' )
+      jb                                .group_0000000000000006_0000
+      cmp                               rax,                                    ( 'F' )
+      ja                                .group_0000000000000006_0000
+      .range_0000000000000006_0000_0000:
+      .begin_0000000000000006:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - 'A' + 10 ]
+        jmp                             expression_0f
+      ;}
+      .close_0000000000000006:
+      .group_0000000000000006_0000:
+      cmp                               rax,                                    ( 'a' )
+      jb                                .group_0000000000000007_0000
+      cmp                               rax,                                    ( 'f' )
+      ja                                .group_0000000000000007_0000
+      .range_0000000000000007_0000_0000:
+      .begin_0000000000000007:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - 'a' + 10 ]
+        jmp                             expression_0f
+      ;}
+      .close_0000000000000007:
+      .group_0000000000000007_0000:
+      .begin_0000000000000008:
+      ;{
+        ret
+      ;}
+      .close_0000000000000008:
+      .group_0000000000000008_0000:
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    expression_01b:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( '0' )
+      jb                                .group_0000000000000000_0000
+      cmp                               rax,                                    ( '9' )
+      ja                                .group_0000000000000000_0000
+      .range_0000000000000000_0000_0000:
+      .begin_0000000000000000:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - '0' ]
+        jmp                             expression_0f
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( 'A' )
+      jb                                .group_0000000000000001_0000
+      cmp                               rax,                                    ( 'F' )
+      ja                                .group_0000000000000001_0000
+      .range_0000000000000001_0000_0000:
+      .begin_0000000000000001:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - 'A' + 10 ]
+        jmp                             expression_0f
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+      cmp                               rax,                                    ( 'a' )
+      jb                                .group_0000000000000002_0000
+      cmp                               rax,                                    ( 'f' )
+      ja                                .group_0000000000000002_0000
+      .range_0000000000000002_0000_0000:
+      .begin_0000000000000002:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - 'a' + 10 ]
+        jmp                             expression_0f
+      ;}
+      .close_0000000000000002:
+      .group_0000000000000002_0000:
+      or                                rax,                                    ( yasic.fCaseMask )
+      cmp                               rax,                                    ( 'H' )
+      jne                               .group_0000000000000003_0000
+      .begin_0000000000000003:
+      ;{
+        jmp                             operator_wait
+      ;}
+      .close_0000000000000003:
+      .group_0000000000000003_0000:
+      cmp                               rax,                                    ( yasic.sTabulator )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( ' ' )
+      jne                               .group_0000000000000004_0000
+      .range_0000000000000004_0000_0000:
+      .begin_0000000000000004:
+      ;{
+        jmp                             operator_wait
+      ;}
+      .close_0000000000000004:
+      .group_0000000000000004_0000:
+      cmp                               rax,                                    ( '!' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '#' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '$' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '%' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '&' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '*' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '+' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '-' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '.' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '/' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( ':' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '<' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '=' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '>' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '?' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '@' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '\' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '^' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '_' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '|' )
+      je                                .range_0000000000000005_0000_0000
+      cmp                               rax,                                    ( '~' )
+      jne                               .group_0000000000000005_0000
+      .range_0000000000000005_0000_0000:
+      .begin_0000000000000005:
+      ;{
+        cookies_new
+        jc                              _start.failCookies
+        jmp                             operator
+      ;}
+      .close_0000000000000005:
+      .group_0000000000000005_0000:
+      .begin_0000000000000006:
+      ;{
+        ret
+      ;}
+      .close_0000000000000006:
+      .group_0000000000000006_0000:
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    expression_07:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( '0' )
+      jb                                .group_0000000000000000_0000
+      cmp                               rax,                                    ( '7' )
+      ja                                .group_0000000000000000_0000
+      .range_0000000000000000_0000_0000:
+      .begin_0000000000000000:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r9,                                     [ r9  * 8 + rax - '0' ]
+        lea                             r10,                                    [ r10 * 4 + rax - '0' ]
+        jmp                             expression_07
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( '8' )
+      jb                                .group_0000000000000001_0000
+      cmp                               rax,                                    ( '9' )
+      ja                                .group_0000000000000001_0000
+      .range_0000000000000001_0000_0000:
+      .begin_0000000000000001:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - '0' ]
+        jmp                             expression_0f
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+      cmp                               rax,                                    ( 'A' )
+      jb                                .group_0000000000000002_0000
+      cmp                               rax,                                    ( 'F' )
+      ja                                .group_0000000000000002_0000
+      .range_0000000000000002_0000_0000:
+      .begin_0000000000000002:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - 'A' + 10 ]
+        jmp                             expression_0f
+      ;}
+      .close_0000000000000002:
+      .group_0000000000000002_0000:
+      cmp                               rax,                                    ( 'a' )
+      jb                                .group_0000000000000003_0000
+      cmp                               rax,                                    ( 'f' )
+      ja                                .group_0000000000000003_0000
+      .range_0000000000000003_0000_0000:
+      .begin_0000000000000003:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - 'a' + 10 ]
+        jmp                             expression_0f
+      ;}
+      .close_0000000000000003:
+      .group_0000000000000003_0000:
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    expression_0f:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( '0' )
+      jb                                .group_0000000000000000_0000
+      cmp                               rax,                                    ( '9' )
+      ja                                .group_0000000000000000_0000
+      .range_0000000000000000_0000_0000:
+      .begin_0000000000000000:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - '0' ]
+        jmp                             expression_0f
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( 'A' )
+      jb                                .group_0000000000000001_0000
+      cmp                               rax,                                    ( 'F' )
+      ja                                .group_0000000000000001_0000
+      .range_0000000000000001_0000_0000:
+      .begin_0000000000000001:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - 'A' + 10 ]
+        jmp                             expression_0f
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+      cmp                               rax,                                    ( 'a' )
+      jb                                .group_0000000000000002_0000
+      cmp                               rax,                                    ( 'f' )
+      ja                                .group_0000000000000002_0000
+      .range_0000000000000002_0000_0000:
+      .begin_0000000000000002:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - 'a' + 10 ]
+        jmp                             expression_0f
+      ;}
+      .close_0000000000000002:
+      .group_0000000000000002_0000:
+      or                                rax,                                    ( yasic.fCaseMask )
+      cmp                               rax,                                    ( 'H' )
+      jne                               .group_0000000000000003_0000
+      .begin_0000000000000003:
+      ;{
+        jmp                             operator_wait
+      ;}
+      .close_0000000000000003:
+      .group_0000000000000003_0000:
+      jmp                               expression_fail
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    expression_0b:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( '0' )
+      jb                                .group_0000000000000000_0000
+      cmp                               rax,                                    ( '1' )
+      ja                                .group_0000000000000000_0000
+      .range_0000000000000000_0000_0000:
+      .begin_0000000000000000:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r8,                                     [ r8 * 2 + rax - '0' ]
+        lea                             r10,                                    [ r10 * 4 + rax - '0' ]
+        jmp                             expression_0b
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( '2' )
+      jb                                .group_0000000000000001_0000
+      cmp                               rax,                                    ( '9' )
+      ja                                .group_0000000000000001_0000
+      .range_0000000000000001_0000_0000:
+      .begin_0000000000000001:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - '0' ]
+        jmp                             expression_0f
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+      cmp                               rax,                                    ( 'A' )
+      jb                                .group_0000000000000002_0000
+      cmp                               rax,                                    ( 'F' )
+      ja                                .group_0000000000000002_0000
+      .range_0000000000000002_0000_0000:
+      .begin_0000000000000002:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - 'A' + 10 ]
+        jmp                             expression_0f
+      ;}
+      .close_0000000000000002:
+      .group_0000000000000002_0000:
+      cmp                               rax,                                    ( 'a' )
+      jb                                .group_0000000000000003_0000
+      cmp                               rax,                                    ( 'f' )
+      ja                                .group_0000000000000003_0000
+      .range_0000000000000003_0000_0000:
+      .begin_0000000000000003:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - 'a' + 10 ]
+        jmp                             expression_0f
+      ;}
+      .close_0000000000000003:
+      .group_0000000000000003_0000:
+      .begin_0000000000000004:
+      ;{
+        ret
+      ;}
+      .close_0000000000000004:
+      .group_0000000000000004_0000:
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    expression_0x:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( '0' )
+      jb                                .group_0000000000000000_0000
+      cmp                               rax,                                    ( '9' )
+      ja                                .group_0000000000000000_0000
+      .range_0000000000000000_0000_0000:
+      .begin_0000000000000000:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - '0' ]
+        jmp                             expression_0x
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( 'A' )
+      jb                                .group_0000000000000001_0000
+      cmp                               rax,                                    ( 'F' )
+      ja                                .group_0000000000000001_0000
+      .range_0000000000000001_0000_0000:
+      .begin_0000000000000001:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - 'A' + 10 ]
+        jmp                             expression_0x
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+      cmp                               rax,                                    ( 'a' )
+      jb                                .group_0000000000000002_0000
+      cmp                               rax,                                    ( 'f' )
+      ja                                .group_0000000000000002_0000
+      .range_0000000000000002_0000_0000:
+      .begin_0000000000000002:
+      ;{
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r10,                                    [ r10 * 4 + rax - 'a' + 10 ]
+        jmp                             expression_0x
+      ;}
+      .close_0000000000000002:
+      .group_0000000000000002_0000:
+      cmp                               rax,                                    ( yasic.sTabulator )
+      je                                .range_0000000000000003_0000_0000
+      cmp                               rax,                                    ( ' ' )
+      jne                               .group_0000000000000003_0000
+      .range_0000000000000003_0000_0000:
+      .begin_0000000000000003:
+      ;{
+        jmp                             operator_wait
+      ;}
+      .close_0000000000000003:
+      .group_0000000000000003_0000:
+      cmp                               rax,                                    ( '!' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '#' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '$' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '%' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '&' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '*' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '+' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '-' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '.' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '/' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( ':' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '<' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '=' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '>' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '?' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '@' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '\' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '^' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '_' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '|' )
+      je                                .range_0000000000000004_0000_0000
+      cmp                               rax,                                    ( '~' )
+      jne                               .group_0000000000000004_0000
+      .range_0000000000000004_0000_0000:
+      .begin_0000000000000004:
+      ;{
+        cookies_new
+        jc                              _start.failCookies
+        jmp                             operator
+      ;}
+      .close_0000000000000004:
+      .group_0000000000000004_0000:
+      .begin_0000000000000005:
+      ;{
+        ret
+      ;}
+      .close_0000000000000005:
+      .group_0000000000000005_0000:
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    expression_9:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( 'h' )
+      jne                               .group_0000000000000000_0000
+      .begin_0000000000000000:
+      ;{
+        jmp                             operator_wait
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( '.' )
+      jne                               .group_0000000000000001_0000
+      .begin_0000000000000001:
+      ;{
+        jmp                             expression_float
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+      cmp                               rax,                                    ( '0' )
+      jb                                .group_0000000000000002_0000
+      cmp                               rax,                                    ( '9' )
+      ja                                .group_0000000000000002_0000
+      .range_0000000000000002_0000_0000:
+      .begin_0000000000000002:
+      ;{
+        lea                             r9,                                     [ r9 * 5 ]
+        lea                             r10,                                    [ r10 * 4 ]
+        lea                             r9,                                     [ r9 * 2 + rax - '0' ]
+        lea                             r10,                                    [ r10 * 4 + rax - '0' ]
+        jmp                             expression_9
+      ;}
+      .close_0000000000000002:
+      .group_0000000000000002_0000:
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    expression_float:
+    ;{
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    expression_fail:
+    ;{
+      echo_put                          [ msg_000000000000000e ]                ;: »fail: invalid expression«
+      mov                               rsp,                                    rbp
+      pop                               rbp
+      ret
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    operator_wait:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( yasic.sTabulator )
+      jb                                .group_0000000000000000_0000
+      cmp                               rax,                                    ( yasic.sCarriageReturn )
+      jb                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( ' ' )
+      jne                               .group_0000000000000000_0000
+      .range_0000000000000000_0000_0000:
+      .begin_0000000000000000:
+      ;{
+        jmp                             operator_wait
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( '!' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '#' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '$' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '%' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '&' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '*' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '+' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '-' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '.' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '/' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( ':' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '<' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '=' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '>' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '?' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '@' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '\' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '^' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '_' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '|' )
+      je                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( '~' )
+      jne                               .group_0000000000000001_0000
+      .range_0000000000000001_0000_0000:
+      .begin_0000000000000001:
+      ;{
+        jmp                             operator
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    operator:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( '!' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '#' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '$' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '%' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '&' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '*' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '+' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '-' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '.' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '/' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( ':' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '<' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '=' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '>' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '?' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '@' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '\' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '^' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '_' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '|' )
+      je                                .range_0000000000000000_0000_0000
+      cmp                               rax,                                    ( '~' )
+      jne                               .group_0000000000000000_0000
+      .range_0000000000000000_0000_0000:
+      .begin_0000000000000000:
+      ;{
+        jmp                             operator
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( yasic.sTabulator )
+      jb                                .group_0000000000000001_0000
+      cmp                               rax,                                    ( yasic.sCarriageReturn )
+      jb                                .range_0000000000000001_0000_0000
+      cmp                               rax,                                    ( ' ' )
+      jne                               .group_0000000000000001_0000
+      .range_0000000000000001_0000_0000:
+      .begin_0000000000000001:
+      ;{
+        jmp                             expression
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    remark_line:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( yasic.sNewLine )
+      jne                               .group_0000000000000000_0000
+      .begin_0000000000000000:
+      ;{
+        ret
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      jmp                               remark_line
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    remark_c:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( yasic.sNewLine )
+      jne                               .group_0000000000000000_0000
+      .begin_0000000000000000:
+      ;{
+        jmp                             remark_c
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( '*' )
+      jne                               .group_0000000000000001_0000
+      .begin_0000000000000001:
+      ;{
+        jmp                             remark_c_
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+      jmp                               remark_c
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+    remark_c_:
+    ;{
+      call                              qword [ files.getUTF8 ]
+      cmp                               rax,                                    ( yasic.sNewLine )
+      jne                               .group_0000000000000000_0000
+      .begin_0000000000000000:
+      ;{
+        jmp                             remark_c
+      ;}
+      .close_0000000000000000:
+      .group_0000000000000000_0000:
+      cmp                               rax,                                    ( '*' )
+      jne                               .group_0000000000000001_0000
+      .begin_0000000000000001:
+      ;{
+        jmp                             remark_c_
+      ;}
+      .close_0000000000000001:
+      .group_0000000000000001_0000:
+      cmp                               rax,                                    ( '/' )
+      jne                               .group_0000000000000002_0000
+      .begin_0000000000000002:
+      ;{
+        ret
+      ;}
+      .close_0000000000000002:
+      .group_0000000000000002_0000:
+      jmp                               remark_c
+    ;}
+    mov                                 sys0ret,                                yasic.eUnexpectedChar
+    ret
+}
+sbaBuffers
+{
+  symbol                                script                                  ->                                      'code/main.y6'
+  symbol                                debugUID                                ->                                      '[yasic] uid: 0x'
+  symbol                                debugSymbol                             ->                                      ' »'
+  symbol                                debugSymend                             ->                                      '«.',                                  10
+  symbol                                symbol.str_else                         ->                                      'else'
+  symbol                                symbol.str_end                          ->                                      'end'
+  symbol                                symbol.str_if                           ->                                      'if'
+  symbol                                msg_0000000000000000                    ->                                      '[yapla] done!', 10
+  symbol                                msg_0000000000000001                    ->                                      '[yapla] fail: could not read input-file!', 10
+  symbol                                msg_0000000000000002                    ->                                      '[yapla] fail: cookies are gone!', 10
+  symbol                                msg_0000000000000003                    ->                                      '[yapla] == Yet Another Programming Language. Again! ==', 10
+  symbol                                msg_0000000000000004                    ->                                      '[yapla] Input File: »/home/sivizius/sba/src0/yapla/yapla.sba«', 10
+  symbol                                msg_0000000000000005                    ->                                      '[yapla] parsing file....', 10
+  symbol                                msg_0000000000000006                    ->                                      'call remark_line', 10
+  symbol                                msg_0000000000000007                    ->                                      'call remark_c', 10
+  symbol                                msg_0000000000000008                    ->                                      'return remark', 10
+  symbol                                msg_0000000000000009                    ->                                      'call remark_line', 10
+  symbol                                msg_000000000000000a                    ->                                      'jump name', 10
+  symbol                                msg_000000000000000b                    ->                                      'call function', 10
+  symbol                                msg_000000000000000c                    ->                                      'call expression', 10
+  symbol                                msg_000000000000000d                    ->                                      'call function', 10
+  symbol                                msg_000000000000000e                    ->                                      'fail: invalid expression', 10
+}
+sbaRandom                               random,                                 4096
+sbaData                                 _resv_
+{
+  _here_                                =                                       $
+  rijndael.sbox:
+  ;{
+    ;; 0x#0, 0x#1, 0x#2, 0x#3, 0x#4, 0x#5, 0x#6, 0x#7, 0x#8, 0x#9, 0x#a, 0x#b, 0x#c, 0x#d, 0x#e, 0x#f
+    db 0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76 ;;0x0#
+    db 0xCA, 0x82, 0xC9, 0x7D, 0xFA, 0x59, 0x47, 0xF0, 0xAD, 0xD4, 0xA2, 0xAF, 0x9C, 0xA4, 0x72, 0xC0 ;;0x1#
+    db 0xB7, 0xFD, 0x93, 0x26, 0x36, 0x3F, 0xF7, 0xCC, 0x34, 0xA5, 0xE5, 0xF1, 0x71, 0xD8, 0x31, 0x15 ;;0x2#
+    db 0x04, 0xC7, 0x23, 0xC3, 0x18, 0x96, 0x05, 0x9A, 0x07, 0x12, 0x80, 0xE2, 0xEB, 0x27, 0xB2, 0x75 ;;0x3#
+    db 0x09, 0x83, 0x2C, 0x1A, 0x1B, 0x6E, 0x5A, 0xA0, 0x52, 0x3B, 0xD6, 0xB3, 0x29, 0xE3, 0x2F, 0x84 ;;0x4#
+    db 0x53, 0xD1, 0x00, 0xED, 0x20, 0xFC, 0xB1, 0x5B, 0x6A, 0xCB, 0xBE, 0x39, 0x4A, 0x4C, 0x58, 0xCF ;;0x5#
+    db 0xD0, 0xEF, 0xAA, 0xFB, 0x43, 0x4D, 0x33, 0x85, 0x45, 0xF9, 0x02, 0x7F, 0x50, 0x3C, 0x9F, 0xA8 ;;0x6#
+    db 0x51, 0xA3, 0x40, 0x8F, 0x92, 0x9D, 0x38, 0xF5, 0xBC, 0xB6, 0xDA, 0x21, 0x10, 0xFF, 0xF3, 0xD2 ;;0x7#
+    db 0xCD, 0x0C, 0x13, 0xEC, 0x5F, 0x97, 0x44, 0x17, 0xC4, 0xA7, 0x7E, 0x3D, 0x64, 0x5D, 0x19, 0x73 ;;0x8#
+    db 0x60, 0x81, 0x4F, 0xDC, 0x22, 0x2A, 0x90, 0x88, 0x46, 0xEE, 0xB8, 0x14, 0xDE, 0x5E, 0x0B, 0xDB ;;0x9#
+    db 0xE0, 0x32, 0x3A, 0x0A, 0x49, 0x06, 0x24, 0x5C, 0xC2, 0xD3, 0xAC, 0x62, 0x91, 0x95, 0xE4, 0x79 ;;0xa#
+    db 0xE7, 0xC8, 0x37, 0x6D, 0x8D, 0xD5, 0x4E, 0xA9, 0x6C, 0x56, 0xF4, 0xEA, 0x65, 0x7A, 0xAE, 0x08 ;;0xb#
+    db 0xBA, 0x78, 0x25, 0x2E, 0x1C, 0xA6, 0xB4, 0xC6, 0xE8, 0xDD, 0x74, 0x1F, 0x4B, 0xBD, 0x8B, 0x8A ;;0xc#
+    db 0x70, 0x3E, 0xB5, 0x66, 0x48, 0x03, 0xF6, 0x0E, 0x61, 0x35, 0x57, 0xB9, 0x86, 0xC1, 0x1D, 0x9E ;;0xd#
+    db 0xE1, 0xF8, 0x98, 0x11, 0x69, 0xD9, 0x8E, 0x94, 0x9B, 0x1E, 0x87, 0xE9, 0xCE, 0x55, 0x28, 0xDF ;;0xe#
+    db 0x8C, 0xA1, 0x89, 0x0D, 0xBF, 0xE6, 0x42, 0x68, 0x41, 0x99, 0x2D, 0x0F, 0xB0, 0x54, 0xBB, 0x16 ;;0xf#
+  ;}
+  _alloc_                               =                                       $
+  elder.trunk                           aq                                      1
+  _resv_                                =                                       ( $ - _here_ )
+}
+sbaLibrary                              'buffers'
+sbaLibrary                              'cookies'
+sbaLibrary                              'echo'
+;sbaLibrary         'elder'
+sbaLibrary                              'files'
+sbaLibrary                              'sasha'
+sbaLibrary                              'yapic'
+sbaFinal
+;( structure )
+;{
+;:  down()
+;:  down()
+;:  down()
+;:  echo( »[yapla] done!« )
+;:  up()
+;:  up()
+;:  up()
+;:  down()
+;:  down()
+;:  down()
+;:  echo( »[yapla] fail: could not read input-file!« )
+;:  return()
+;:  up()
+;:  up()
+;:  up()
+;:  down()
+;:  down()
+;:  down()
+;:  echo( »[yapla] fail: cookies are gone!« )
+;:  return()
+;:  up()
+;:  echo( »[yapla] == Yet Another Programming Language. Again! ==« )
+;:  echo( »[yapla] Input File: »/home/sivizius/sba/src0/yapla/yapla.sba«« )
+;:  echo( »[yapla] parsing file....« )
+;:  yasic
+;:  {
+;:    null
+;:    {
+;:      return()
+;:    }
+;:    space
+;:    {
+;:      jump( »yasic« )
+;:    }
+;:    »/«
+;:    {
+;:      »/«
+;:      {
+;:        echo( »call remark_line« )
+;:        call( »remark_line« )
+;:        jump( »yasic« )
+;:      }
+;:      »*«
+;:      {
+;:        echo( »call remark_c« )
+;:        call( »remark_c« )
+;:        jump( »yasic« )
+;:      }
+;:      echo( »return remark« )
+;:    }
+;:    »-«
+;:    {
+;:      »-«
+;:      {
+;:        call( »remark_line« )
+;:      }
+;:    }
+;:    »#«
+;:    {
+;:      echo( »call remark_line« )
+;:      call( »remark_line« )
+;:      jump( »yasic« )
+;:    }
+;:    »_«..|alpha
+;:    {
+;:      new_symbol()
+;:      echo( »jump name« )
+;:      jump( »name« )
+;:    }
+;:  }
+;:  yasic_wait
+;:  {
+;:    newline..|..»;«
+;:    {
+;:      jump( »yasic« )
+;:    }
+;:    null
+;:    {
+;:      return()
+;:    }
+;:  }
+;:  name
+;:  {
+;:    »_«..|alpha numerical
+;:    {
+;:      add_symbol()
+;:      jump( »name« )
+;:    }
+;:    »(«
+;:    {
+;:      end_symbol()
+;:      echo( »call function« )
+;:      call( »function« )
+;:      jump( »yasic_wait« )
+;:    }
+;:    blank
+;:    {
+;:      jump( »name_wait« )
+;:    }
+;:  }
+;:  name_wait
+;:  {
+;:    space
+;:    {
+;:      jump( »name_wait« )
+;:    }
+;:    »=«
+;:    {
+;:      end_symbol()
+;:      echo( »call expression« )
+;:      call( »expression« )
+;:    }
+;:    »(«
+;:    {
+;:      end_symbol()
+;:      echo( »call function« )
+;:      call( »function« )
+;:      jump( »yasic_wait« )
+;:    }
+;:  }
+;:  function
+;:  {
+;:    »)«
+;:    {
+;:      return()
+;:    }
+;:    any
+;:    {
+;:      jump( »function« )
+;:    }
+;:  }
+;:  expression
+;:  {
+;:    blank
+;:    {
+;:      jump( »expression« )
+;:    }
+;:    »"«
+;:    {
+;:      jump( »expression_string« )
+;:    }
+;:    »0«
+;:    {
+;:      jump( »expression_0« )
+;:    }
+;:    [1..9]
+;:    {
+;:      jump( »expression_9« )
+;:    }
+;:    »_«..|alpha
+;:    {
+;:      new_symbol()
+;:      jump( »expression_var« )
+;:    }
+;:    »$«
+;:    {
+;:      jump( »expression_0x« )
+;:    }
+;:    »(«
+;:    {
+;:      jump( »expression« )
+;:    }
+;:    »)«
+;:    {
+;:      jump( »expression« )
+;:    }
+;:    return()
+;:  }
+;:  expression_string
+;:  {
+;:    »"«
+;:    {
+;:      jump( »operator_wait« )
+;:    }
+;:    »\«
+;:    {
+;:      »a«
+;:      {
+;:        jump( »expression_string« )
+;:      }
+;:      »b«
+;:      {
+;:        jump( »expression_string« )
+;:      }
+;:      »e«
+;:      {
+;:        jump( »expression_string« )
+;:      }
+;:      »f«
+;:      {
+;:        jump( »expression_string« )
+;:      }
+;:      »n«
+;:      {
+;:        jump( »expression_string« )
+;:      }
+;:      »q«
+;:      {
+;:        jump( »expression_string« )
+;:      }
+;:      »Q«
+;:      {
+;:        jump( »expression_string« )
+;:      }
+;:      »r«
+;:      {
+;:        jump( »expression_string« )
+;:      }
+;:      »t«
+;:      {
+;:        jump( »expression_string« )
+;:      }
+;:      »v«
+;:      {
+;:        jump( »expression_string« )
+;:      }
+;:      newline
+;:      {
+;:        jump( »expression_string« )
+;:      }
+;:      any
+;:      {
+;:        jump( »expression_string« )
+;:      }
+;:    }
+;:  }
+;:  expression_var
+;:  {
+;:    »_«..|alpha numerical
+;:    {
+;:      add_symbol()
+;:      jump( »expression_var« )
+;:    }
+;:    »(«
+;:    {
+;:      end_symbol()
+;:      call( »expression« )
+;:    }
+;:    mathematical
+;:    {
+;:      end_symbol()
+;:      new_symbol()
+;:      jump( »operator« )
+;:    }
+;:    blank
+;:    {
+;:      end_symbol()
+;:      jump( »expression_var_wait« )
+;:    }
+;:    any
+;:    {
+;:      end_symbol()
+;:      return()
+;:    }
+;:  }
+;:  expression_var_wait
+;:  {
+;:    blank
+;:    {
+;:      jump( »expression_var_wait« )
+;:    }
+;:    mathematical
+;:    {
+;:      new_symbol()
+;:      jump( »operator« )
+;:    }
+;:    »(«
+;:    {
+;:      call( »expression« )
+;:    }
+;:    any
+;:    {
+;:      return()
+;:    }
+;:  }
+;:  expression_0
+;:  {
+;:    »b«
+;:    {
+;:      jump( »expression_0b« )
+;:    }
+;:    »h«
+;:    {
+;:      jump( »operator_wait« )
+;:    }
+;:    »x«
+;:    {
+;:      jump( »expression_0x« )
+;:    }
+;:    [0..1]
+;:    {
+;:      jump( »expression_01« )
+;:    }
+;:    [2..7]
+;:    {
+;:      jump( »expression_07« )
+;:    }
+;:    [8..9]
+;:    {
+;:      jump( »expression_0f« )
+;:    }
+;:    [A..F]
+;:    {
+;:      jump( »expression_0f« )
+;:    }
+;:    [a..f]
+;:    {
+;:      jump( »expression_0f« )
+;:    }
+;:    any
+;:    {
+;:      return()
+;:    }
+;:  }
+;:  expression_01
+;:  {
+;:    »b«
+;:    {
+;:      jump( »expression_01b« )
+;:    }
+;:    »h«
+;:    {
+;:      jump( »operator_wait« )
+;:    }
+;:    »o«
+;:    {
+;:      jump( »operator_wait« )
+;:    }
+;:    [0..1]
+;:    {
+;:      jump( »expression_01« )
+;:    }
+;:    [2..7]
+;:    {
+;:      jump( »expression_07« )
+;:    }
+;:    [8..9]
+;:    {
+;:      jump( »expression_0f« )
+;:    }
+;:    [A..F]
+;:    {
+;:      jump( »expression_0f« )
+;:    }
+;:    [a..f]
+;:    {
+;:      jump( »expression_0f« )
+;:    }
+;:    any
+;:    {
+;:      return()
+;:    }
+;:  }
+;:  expression_01b
+;:  {
+;:    [0..9]
+;:    {
+;:      jump( »expression_0f« )
+;:    }
+;:    [A..F]
+;:    {
+;:      jump( »expression_0f« )
+;:    }
+;:    [a..f]
+;:    {
+;:      jump( »expression_0f« )
+;:    }
+;:    H/h
+;:    {
+;:      jump( »operator_wait« )
+;:    }
+;:    blank
+;:    {
+;:      jump( »operator_wait« )
+;:    }
+;:    mathematical
+;:    {
+;:      new_symbol()
+;:      jump( »operator« )
+;:    }
+;:    any
+;:    {
+;:      return()
+;:    }
+;:  }
+;:  expression_07
+;:  {
+;:    [0..7]
+;:    {
+;:      jump( »expression_07« )
+;:    }
+;:    [8..9]
+;:    {
+;:      jump( »expression_0f« )
+;:    }
+;:    [A..F]
+;:    {
+;:      jump( »expression_0f« )
+;:    }
+;:    [a..f]
+;:    {
+;:      jump( »expression_0f« )
+;:    }
+;:  }
+;:  expression_0f
+;:  {
+;:    [0..9]
+;:    {
+;:      jump( »expression_0f« )
+;:    }
+;:    [A..F]
+;:    {
+;:      jump( »expression_0f« )
+;:    }
+;:    [a..f]
+;:    {
+;:      jump( »expression_0f« )
+;:    }
+;:    H/h
+;:    {
+;:      jump( »operator_wait« )
+;:    }
+;:    jump( »expression_fail« )
+;:  }
+;:  expression_0b
+;:  {
+;:    [0..1]
+;:    {
+;:      jump( »expression_0b« )
+;:    }
+;:    [2..9]
+;:    {
+;:      jump( »expression_0f« )
+;:    }
+;:    [A..F]
+;:    {
+;:      jump( »expression_0f« )
+;:    }
+;:    [a..f]
+;:    {
+;:      jump( »expression_0f« )
+;:    }
+;:    any
+;:    {
+;:      return()
+;:    }
+;:  }
+;:  expression_0x
+;:  {
+;:    [0..9]
+;:    {
+;:      jump( »expression_0x« )
+;:    }
+;:    [A..F]
+;:    {
+;:      jump( »expression_0x« )
+;:    }
+;:    [a..f]
+;:    {
+;:      jump( »expression_0x« )
+;:    }
+;:    blank
+;:    {
+;:      jump( »operator_wait« )
+;:    }
+;:    mathematical
+;:    {
+;:      new_symbol()
+;:      jump( »operator« )
+;:    }
+;:    any
+;:    {
+;:      return()
+;:    }
+;:  }
+;:  expression_9
+;:  {
+;:    »h«
+;:    {
+;:      jump( »operator_wait« )
+;:    }
+;:    ».«
+;:    {
+;:      jump( »expression_float« )
+;:    }
+;:    [0..9]
+;:    {
+;:      jump( »expression_9« )
+;:    }
+;:  }
+;:  expression_float
+;:  {
+;:  }
+;:  expression_fail
+;:  {
+;:    echo( »fail: invalid expression« )
+;:    return()
+;:  }
+;:  operator_wait
+;:  {
+;:    space
+;:    {
+;:      jump( »operator_wait« )
+;:    }
+;:    mathematical
+;:    {
+;:      jump( »operator« )
+;:    }
+;:  }
+;:  operator
+;:  {
+;:    mathematical
+;:    {
+;:      jump( »operator« )
+;:    }
+;:    space
+;:    {
+;:      jump( »expression« )
+;:    }
+;:  }
+;:  remark_line
+;:  {
+;:    newline
+;:    {
+;:      return()
+;:    }
+;:    jump( »remark_line« )
+;:  }
+;:  remark_c
+;:  {
+;:    newline
+;:    {
+;:      jump( »remark_c« )
+;:    }
+;:    »*«
+;:    {
+;:      jump( »remark_c_« )
+;:    }
+;:    jump( »remark_c« )
+;:  }
+;:  remark_c_
+;:  {
+;:    newline
+;:    {
+;:      jump( »remark_c« )
+;:    }
+;:    »*«
+;:    {
+;:      jump( »remark_c_« )
+;:    }
+;:    »/«
+;:    {
+;:      return()
+;:    }
+;:    jump( »remark_c« )
+;:  }
+;:  up()
+;:  up()
+;:  down()
+;:  insert_text()
+;:  up()
+;:  
+;}

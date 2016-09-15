@@ -1,0 +1,269 @@
+#!sba:yasic
+{
+  format ELF64 executable
+  use64
+  entry _start
+
+  include 'libs/main.fasm'
+  __debug__  fix true
+
+  __tmp2__ fix r12
+  __tmp3__ fix r13
+  __tmp4__ fix r14
+  __tmp5__ fix r15
+  __tmpA__ fix rax
+  __tmpB__ fix rbx
+
+  __yentry__ fix r14
+
+  __page__ fix r15
+  __file__ fix r15
+  xstat 'main'
+  xstat 'buffers'
+  xstat 'echo'
+  xstat 'files'
+  xstat 'on'
+  stat  'constants'
+  segment executable
+    _start:
+      null sys5arg
+      null sys4arg
+      null sys3arg
+      mov  sys2arg, file_modeR
+      mov  sys1arg, AT_FDCWD
+      lea  sys0arg, [ script - 2 ]
+      call files.open
+      call yapla
+      null sys0arg
+      sys_call sys_exit
+    xcode 'buffers'
+    xcode 'echo'
+    xcode 'files'
+    xcode 'threads'
+    xcode 'time'
+    yapla:
+}
+down()
+down()
+echo('[yapla] == Yet Another Programming Language. Again! ==')
+echo('[yapla] Input File: »/home/sivizius/sba/src0/yapla/yapla.sba«')
+echo('[yapla] parsing file....')
+
+'#!sba:'
+{
+  echo('[yapla] its an sba-file \\o/')
+  'yasic\n'
+  {
+    echo('[yapla] its yet another instruction code \\o/')
+    call('yasic')
+    echo('[yapla] done')
+    return()
+  }
+  echo('[yapla] unknown language :S!')
+}
+
+yasic
+{
+  fail()
+  fail(32)
+#...
+  '\0' { return(); }
+  return()
+  '<space>' { jump('yasic'); }
+  '/'
+  {
+    '/' { call('remark_line'); jump('yasic'); }
+    '*' { call('remark_c'); jump('yasic'); }
+  }
+  '#|;' { call ('remark_line'); jump('yasic'); }
+  '\q' { jump('regex'); }
+  '_|<alpha>'
+  {
+    #symbols.new(char)
+    jump('definition')
+  }
+}
+
+definition
+{
+  '<alphanum>'
+  {
+    jump('definition')
+  }
+  '<space>' { jump('definition_wait'); }
+  '(' { jump('function'); }
+  '=' { jump('assignment'); }
+  '{'
+  {
+    {
+      inc rdx
+    }
+    jump('block')
+  }
+}
+definition_wait
+{
+  '<space>' { jump('definition_wait'); }
+  '(' { jump('function'); }
+  '=' { jump('assignment'); }
+  '{'
+  {
+    {
+      inc rdx
+    }
+    jump('yasic')
+  }
+}
+
+function
+{
+}
+
+assignment
+{
+}
+
+block
+{
+}
+
+
+regex
+{
+  '\\' { jump('regex_escape'); }
+  '\q' { return(); }
+}
+
+regex_escape
+{
+  '0'  { jump('regex'); }
+  'a'  { jump('regex'); }
+  'b'  { jump('regex'); }
+  'd'  { jump('regex'); }
+  'D'  { jump('regex'); }
+  'e'  { jump('regex'); }
+  'f'  { jump('regex'); }
+  'n'  { jump('regex'); }
+  'q'  { jump('regex'); }
+  'Q'  { jump('regex'); }
+  'r'  { jump('regex'); }
+  's'  { jump('regex'); }
+  'S'  { jump('regex'); }
+  't'  { jump('regex'); }
+  'v'  { jump('regex'); }
+  'w'  { jump('regex'); }
+  'W'  { jump('regex'); }
+  'x'
+  {
+    {
+      null rbx
+    }
+    jump('regex_hex')
+  }
+  '\.' { jump('regex'); }
+}
+regex_hex
+{
+  '[09]'
+  {
+  }
+  '\\'
+  {
+  }
+  '[AF]'
+  {
+  }
+  '[af]'
+  {
+  }
+}
+
+remark_line
+{
+  '<newline>' { return(); }
+  jump('remark_line')
+}
+
+remark_c
+{
+  '*/' { return(); }
+  jump('remark_c')
+}
+up()
+up()
+
+{
+  times ( 0x1000 - ( \$ and 0xfff )) db 0x90
+  segment readable writeable
+}
+#text
+{
+    ;*page -> strucBuffersPage
+    ;{
+    ;:  0x00 .next\=cq -> strucBuffersPage      \=*next_page -> ... -> NULL
+    ;:  0x08 .stop\=cq -> void                  \=( *page + page_size )
+    ;:  0x10 .here\=dq -> strucBuffers          \=*new_buffer in { [ *page, *page + page_size - 2 ], NULL }
+    ;:  0x18 .last\=dq -> strucBuffers          \=*last
+    ;:  0x20 .full\=cw                          \=page_size = ( meta_size + used_size + spam_size + free_size )
+    ;:  0x22 .free\=dw                          \=free_size
+    ;:  0x24 .used\=dw                          \=used_size
+    ;:  0x26 .spam\=dw                          \=spam_size
+    ;:  0x28 .    \=db[ page_size - meta_size ] \=content -> { buffer0, ..., bufferN } -> strucItem
+    ;}
+    ;{
+      _base_    = ( \$ and 0xfffffffffffff000 )
+      \=dq      0x0000000000000000
+      addBase0  dq            ( _base_ + _length_ )
+      addBase1  dq            ( _here_ )
+      \=dq      0x0000000000000000
+      \=dw      ( buffers.lenFull )
+      \=dw      ( _base_ + _length_ - _here_ )
+      \=dw      ( _here_ - _base_ - buffers.lenMeta )
+      \=dw      0x0000
+    ;}
+    _cobj_ = 1
+    xtext 'buffers'
+    xtext 'echo'
+    xtext 'files'
+    xtext 'threads'
+    script str 'code/yasic.sba'
+}
+down()
+insert_text()
+up()
+#data/resv
+{
+    buffers.list  dq ( _base_ )
+    buffers.full  dd ( _length_ )                           ;sum full_size
+    buffers.used  dd ( _here_ - _base_ - buffers.lenMeta )  ;sum used_size
+    buffers.meta  dd ( buffers.lenMeta )                    ;sum meta_size
+    buffers.spam  dd 0x00000000                             ;sum spam_size
+    buffers.free  dd ( _base_ + _length_ - _here_ )         ;sum free_size
+    buffers.count dd ( _objs_ )                             ;count objects
+    xvars 'echo'
+    _vars_       =  \$
+    _alloc_      =  \$
+    buffers.save      aq 1  ;save of *list while debug
+    buffers.saveDebug aq 1  ;save of *list while debug
+    buffers.lastPage  aq 1  ;last used *page
+    buffers.last      aq 1  ;last used *buffer
+    xresv 'echo'
+    xresv 'files'
+    xresv 'time'
+    yasic.depth  aq 1
+    _here_       =  _alloc_
+    _size_       =  ( _here_ - _base_ )
+    _resv_       =  0x8000
+    if\ ( _resv_ > _size_ )
+      _size_     =  _resv_
+    end\ if
+    if\ ( _size_ and 0x0000000000000fff )
+      _size_     =  (( _size_ + 4096 ) and 0xfffffffffffff000 )
+    end\ if
+    if\ (( _size_ ) > ( buffers.lenFull ))
+      display    'error: lenUsed > maxLenFull!'
+    end\ if
+    \=rb         ( _base_ + _size_ - \$ )
+    _length_     =  _size_
+    _objs_       =  _cobj_
+}

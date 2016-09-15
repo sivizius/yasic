@@ -1,0 +1,338 @@
+;( about )
+;{
+  yasic.VERSION                         equ                                     '0.9.1.0~2016-06-04'
+  yasic.BUILD                           =                                       0x0910000020160604
+  yasic.AUTHOR                          equ                                     '_sivizius'
+;}
+;( classes )
+;{
+  yasic.class_seed                      __hash__                                %t,                                     0
+  yasic.class_seed                      __hash__                                yasic.class_seed,                       0
+  yasic.class_seed                      __hash__                                yasic.class_seed,                       0
+  yasic.class_seed                      __hash__                                yasic.class_seed,                       0
+  yasic.class_seed                      __hash__                                yasic.class_seed,                       0
+  yasic.class_seed                      __hash__                                yasic.class_seed,                       0
+  yasic.class_seed                      __hash__                                yasic.class_seed,                       0
+  yasic.class_seed                      __hash__                                yasic.class_seed,                       0
+  yasic.class_seed                      __hash__                                yasic.class_seed,                       0
+  yasic.class_seed                      __hash__                                yasic.class_seed,                       0
+  ;displayValue                         '[asm:yasic] class seed 0x',            yasic.class_seed
+  struc yasic_class                     string
+  {
+    local state
+    state __hash__                      yasic.class_seed,                       string
+    state __hash__                      state,                                  0
+    state __hash__                      state,                                  0
+    state __hash__                      state,                                  0
+    state __hash__                      state,                                  0
+    state __hash__                      state,                                  0
+    state __hash__                      state,                                  0
+    state __hash__                      state,                                  0
+    ;display                            '[asm:yasic] class 0x'
+    ;displayHex                         state
+    ;display                            ' »', string, '«', yasic.sNewLine
+    .                                   =                                       state
+  }
+  yasic.cAlnum                          yasic_class                             'alnum'
+  yasic.cAlnum_                         yasic_class                             'alnum*'
+  yasic.cAlpha                          yasic_class                             'alpha'
+  yasic.cAlpha_                         yasic_class                             'alpha*'
+  yasic.cAlphaNum                       yasic_class                             'alphanum'
+  yasic.cAlphaNum_                      yasic_class                             'alphanum*'
+  yasic.cAlphaNumerical                 yasic_class                             'alphanumerical'
+  yasic.cAlphaNumerical_                yasic_class                             'alphanumerical*'
+  yasic.cAny                            yasic_class                             'any'
+  yasic.cBack                           yasic_class                             'back'
+  yasic.cBackSpace                      yasic_class                             'backspace'
+  yasic.cBell                           yasic_class                             'bell'
+  yasic.cBlank                          yasic_class                             'blank'
+  yasic.cBracket                        yasic_class                             'bracket'
+  yasic.cCarriageReturn                 yasic_class                             'carriage return'
+  yasic.cCntrl                          yasic_class                             'cntrl'
+  yasic.cControl                        yasic_class                             'control'
+  yasic.cDEL                            yasic_class                             'del'
+  yasic.cDelete                         yasic_class                             'delete'
+  yasic.cDigit                          yasic_class                             'digit'
+  yasic.cDecimal                        yasic_class                             'decimal'
+  yasic.cEscape                         yasic_class                             'escape'
+  yasic.cFormFeed                       yasic_class                             'form feed'
+  yasic.cGraph                          yasic_class                             'graph'
+  yasic.cGraphical                      yasic_class                             'graphical'
+  yasic.cLineFeed                       yasic_class                             'line feed'
+  yasic.cLower                          yasic_class                             'lower'
+  yasic.cLowerCase                      yasic_class                             'lower case'
+  yasic.cMath                           yasic_class                             'math'
+  yasic.cMathematical                   yasic_class                             'mathematical'
+  yasic.cNewLine                        yasic_class                             'newline'
+  yasic.cNew_Line                       yasic_class                             'new line'
+  yasic.cNewPage                        yasic_class                             'newpage'
+  yasic.cNew_Page                       yasic_class                             'new page'
+  yasic.cNoDigit                        yasic_class                             'nodigit'
+  yasic.cNo_Digit                       yasic_class                             'no digit'
+  yasic.cNotADigit                      yasic_class                             'not a digit'
+  yasic.cNoDecimal                      yasic_class                             'nodecimal'
+  yasic.cNo_Decimal                     yasic_class                             'no decimal'
+  yasic.cNotADecimal                    yasic_class                             'not a decimal'
+  yasic.cNoSpace                        yasic_class                             'nospace'
+  yasic.cNo_Space                       yasic_class                             'no space'
+  yasic.cNotASpace                      yasic_class                             'not a space'
+  yasic.cNoWord                         yasic_class                             'noword'
+  yasic.cNoWord_                        yasic_class                             'noword*'
+  yasic.cNo_Word                        yasic_class                             'no word'
+  yasic.cNo_Word_                       yasic_class                             'no word*'
+  yasic.cNotAWord                       yasic_class                             'not a word'
+  yasic.cNotAWord_                      yasic_class                             'not a word*'
+  yasic.cNull                           yasic_class                             'null'
+  yasic.cOctal                          yasic_class                             'octal'
+  yasic.cPrint                          yasic_class                             'print'
+  yasic.cPrintable                      yasic_class                             'printable'
+  yasic.cPunct                          yasic_class                             'punct'
+  yasic.cPunctuation                    yasic_class                             'punctuation'
+  yasic.cQuote                          yasic_class                             'quote'
+  yasic.cQuotationMark                  yasic_class                             'quotation mark'
+  yasic.cReturn                         yasic_class                             'return'
+  yasic.cSpace                          yasic_class                             'space'
+  yasic.cTab                            yasic_class                             'tab'
+  yasic.cTabulator                      yasic_class                             'tabulator'
+  yasic.cUpper                          yasic_class                             'upper'
+  yasic.cUpperCase                      yasic_class                             'upper case'
+  yasic.cVTab                           yasic_class                             'vtab'
+  yasic.cVerticalTab                    yasic_class                             'vertical tab'
+  yasic.cVerticalTabulator              yasic_class                             'vertical tabulator'
+  yasic.cWord                           yasic_class                             'word'
+  yasic.cWord_                          yasic_class                             'word*'
+  yasic.cXDigit                         yasic_class                             'xdigit'
+  yasic.cXDigit_                        yasic_class                             'xdigit*'
+  yasic.cXDecimal                       yasic_class                             'xdecimal'
+  yasic.cXDecimal_                      yasic_class                             'xdecimal*'
+  yasic.cHexaDecimal                    yasic_class                             'hexadecimal'
+  yasic.cHexaDecimal_                   yasic_class                             'hexadecimal*'
+;}
+;( errors )
+;{
+  yasic.eNone                           =                                       0x00000000
+  yasic.eUnexpectedChar                 =                                       0x00000001
+  yasic.eUnexpectedNull                 =                                       0x00000002
+  yasic.eNotImplemented                 =                                       0x00000003
+  yasic.eUnknownError                   =                                       0xffffffff
+;}
+;( flags )
+;{
+  yasic.fCaseMask                       =                                       0x00000020
+  yasic.fSpecial                        =                                       0x80000000
+  yasic.fCharMask                       =                                       0x001fffff
+;}
+;( labels )
+;{
+  yasic.label_seed                      __hash__                                yasic.class_seed,                       0
+  ;displayValue                         '[asm:yasic] label seed 0x',            yasic.label_seed
+  struc yasic_label                     string
+  {
+    local state
+    state __hash__                      yasic.label_seed,                       string
+    state __hash__                      state,                                  0
+    state __hash__                      state,                                  0
+    state __hash__                      state,                                  0
+    state __hash__                      state,                                  0
+    state __hash__                      state,                                  0
+    state __hash__                      state,                                  0
+    state __hash__                      state,                                  0
+    ;display                            '[asm:yasic] label 0x'
+    ;displayHex                         state
+    ;display                            ' »', string, '«', yasic.sNewLine
+    .                                   =                                       state
+  }
+  yasic.lCall                           yasic_label                             'call'
+  yasic.lChar                           yasic_label                             'char'
+  yasic.lDown                           yasic_label                             'down'
+  yasic.lEcho                           yasic_label                             'echo'
+  yasic.lFail                           yasic_label                             'fail'
+  yasic.lInsertText                     yasic_label                             'insert_text'
+  yasic.lJump                           yasic_label                             'jump'
+  yasic.lReturn                         yasic_label                             'return'
+  yasic.lSymbolAdd                      yasic_label                             'add_symbol'
+  yasic.lSymbolEnd                      yasic_label                             'end_symbol'
+  yasic.lSymbolGet                      yasic_label                             'get_symbol'
+  yasic.lSymbolInsert                   yasic_label                             'insert_symbol'
+  yasic.lSymbolNew                      yasic_label                             'new_symbol'
+  yasic.lUp                             yasic_label                             'up'
+;}
+;( modes )
+;{
+  yasic.mInvalid                        =                                       0x00
+  yasic.mHeader                         =                                       0x01
+  yasic.mSpace                          =                                       0x02
+  yasic.mRemark                         =                                       0x03
+  yasic.mContent                        =                                       0x04
+  yasic.mInline                         =                                       0x05
+  yasic.mInlineParse                    =                                       0x06
+  yasic.mInlineSpace                    =                                       0x07
+  yasic.mInlineOp                       =                                       0x08
+  yasic.mInlineArg                      =                                       0x09
+  yasic.mInlineEscape                   =                                       0x0a
+  yasic.mInlineString                   =                                       0x0b
+  yasic.mInlineWait                     =                                       0x0c
+  yasic.mInlineRemark                   =                                       0x0d
+  yasic.mInlineVar                      =                                       0x0e
+
+  yasic.mRegEx                          =                                       0x10
+  yasic.mRegExOpen                      =                                       0x11
+  yasic.mRegExWait                      =                                       0x12
+  yasic.mRegExString                    =                                       0x13
+  yasic.mRegExEscape                    =                                       0x14
+  yasic.mRegExEscapeString              =                                       0x15
+  yasic.mRegExHexWait                   =                                       0x16
+  yasic.mRegExHexString                 =                                       0x17
+  yasic.mRegExClassStart                =                                       0x18
+  yasic.mRegExClassFirst                =                                       0x19
+  yasic.mRegExClassParse                =                                       0x1a
+  yasic.mLabel                          =                                       0x1b
+  yasic.mLabelWait                      =                                       0x1c
+  yasic.mBlock                          =                                       0x1d
+  yasic.mCommandWait                    =                                       0x1e
+  yasic.mCommandLook                    =                                       0x1f
+
+  yasic.mCommandArgument                =                                       0x20
+  yasic.mCommandNext                    =                                       0x21
+  yasic.mCommandStop                    =                                       0x22
+  yasic.mCommandString                  =                                       0x23
+  yasic.mCommandNull                    =                                       0x24
+  yasic.mCommandDecimal                 =                                       0x25
+  yasic.mCommandHexadecimal             =                                       0x26
+  yasic.mLet                            =                                       0x27
+  yasic.mLetWait                        =                                       0x28
+  yasic.mLetNull                        =                                       0x29
+  yasic.mLetDecimal                     =                                       0x2a
+  yasic.mLetHexadecimal                 =                                       0x2b
+  yasic.mLetString                      =                                       0x2c
+  yasic.mRange                          =                                       0x2d
+  yasic.mRange_to                       =                                       0x2e
+  yasic.mRange_wait                     =                                       0x2f
+
+  yasic.mMessage                        =                                       0x30
+  yasic.mString                         =                                       0x31
+  yasic.mString                         =                                       0x32
+  yasic.mEscape                         =                                       0x33
+  yasic.mEscapeString                   =                                       0x34
+  yasic.mOutput                         =                                       0x35
+
+  yasic.mError                          =                                       0xff
+;}
+;( special characters )
+;{
+  yasic.sFinal                          =                                       0x00000000                                                   ;[:null:]    \0
+  yasic.sNull                           =                                       0x00000000                                                   ;:\0
+  yasic.sNUL                            =                                       0x00000000                                                   ;:\0
+  yasic.sBell                           =                                       0x00000007                                                   ;[:bell:]    \a
+  yasic.sBEL                            =                                       0x00000007                                                   ;:\a
+  yasic.sBackSpace                      =                                       0x00000008                                                   ;[:back:]    \b
+  yasic.sTabulator                      =                                       0x00000009                                                   ;[:tab:]     \t
+  yasic.sTAB                            =                                       0x00000009                                                   ;:\t
+  yasic.sNewLine                        =                                       0x0000000a                                                   ;[:newline:] \n
+  yasic.sLineFeed                       =                                       0x0000000a                                                   ;:\n
+  yasic.sLF                             =                                       0x0000000a                                                   ;:\n
+  yasic.sVerticalTab                    =                                       0x0000000b                                                   ;[:vtab:]    \v
+  yasic.sVT                             =                                       0x0000000b                                                   ;:\v
+  yasic.sNewPage                        =                                       0x0000000c                                                   ;[:newpage:] \f
+  yasic.sFormFeed                       =                                       0x0000000c                                                   ;[:newpage:] \f
+  yasic.sFF                             =                                       0x0000000c                                                   ;:\f
+  yasic.sCarriageReturn                 =                                       0x0000000d                                                   ;[:return:]  \r
+  yasic.sReturn                         =                                       0x0000000d                                                   ;:\r
+  yasic.sCR                             =                                       0x0000000d                                                   ;:\r
+  yasic.sControlChars                   =                                       0x0000001f
+  yasic.sWhitespace                     =                                       0x00000020
+  yasic.sQuotation                      =                                       0x00000022                                                   ;:\"
+  yasic.sApostrophe                     =                                       0x00000027                                                   ;:\'
+  yasic.sSemicolon                      =                                       0x00000059                                                   ;:\;
+  yasic.sBackSlash                      =                                       0x0000005c                                                   ;:\\
+  yasic.sDEL                            =                                       0x0000007f
+  yasic.sDelete                         =                                       0x0000007f
+  yasic.sEscape                         =                                       0x0000001b                                                   ;[:escape:]  \e
+  yasic.sUpper                          =                                       'A' + yasic.fSpecial  ;[A-Z]                                  [:upper:]
+  yasic.sLower                          =                                       'B' + yasic.fSpecial  ;[a-z]                                  [:lower:]
+  yasic.sAlpha                          =                                       'C' + yasic.fSpecial  ;[A-Za-z]       - A-Z->a-z              [:alpha:]
+  yasic.sAlphaSave                      =                                       'D' + yasic.fSpecial  ;[A-Za-z]                               [:alpha:]
+  yasic.sAlphaNumeric                   =                                       'E' + yasic.fSpecial  ;[0-9A-Za-z]    - A-Z->a-z              [:alnum:]
+  yasic.sAlphaNumericSave               =                                       'F' + yasic.fSpecial  ;[0-9A-Za-z]                            [:alnum:]
+  yasic.sOctal                          =                                       'G' + yasic.fSpecial  ;[0-7]                                  [:octal:]
+  yasic.sDecimal                        =                                       'H' + yasic.fSpecial  ;[0-9]                                  [:digit:]   \d
+  yasic.sNoDecimal                      =                                       'I' + yasic.fSpecial  ;[^0-9]                                 [:nodigit:] \D
+  yasic.sHexadecimal                    =                                       'J' + yasic.fSpecial  ;[0-9A-Fa-f]    - A-F->a-f              [:xdigit:]
+  yasic.sHexadecimalSave                =                                       'K' + yasic.fSpecial  ;[0-9A-Fa-f]                            [:xdigit:]
+  yasic.sPunctuation                    =                                       'L' + yasic.fSpecial  ;[!"#$%&'()*+,-./;:<=>?@\[\\\]^_`{|}~]  [:punct:]
+  yasic.sBlank                          =                                       'M' + yasic.fSpecial  ;[\t ]                                  [:blank:]
+  yasic.sSpace                          =                                       'N' + yasic.fSpecial  ;[\t\n\v\f\r ]                          [:space:]   \s
+  yasic.sNoSpace                        =                                       'O' + yasic.fSpecial  ;[^\t\n\v\f\r ]                         [:nospace:] \S
+  yasic.sControl                        =                                       'P' + yasic.fSpecial  ;{0x00,....,0x1f,0x7f}                  [:cntrl:]
+  yasic.sGraphical                      =                                       'Q' + yasic.fSpecial  ;[]                                     [:graph:]
+  yasic.sPrintable                      =                                       'R' + yasic.fSpecial  ;[]                                     [:print:]
+  yasic.sWord                           =                                       'S' + yasic.fSpecial  ;[0-9A-Za-z_]   - A-Z->a-z              [:word:]    \w
+  yasic.sWordSave                       =                                       'T' + yasic.fSpecial  ;[0-9A-Za-z_]                           [:word:]    \w
+  yasic.sNoWord                         =                                       'U' + yasic.fSpecial  ;[^0-9A-Za-z_]  - A-Z->a-z              [:noword:]  \W
+  yasic.sNoWordSave                     =                                       'V' + yasic.fSpecial  ;[^0-9A-Za-z_]                          [:noword:]  \W
+  yasic.sString                         =                                       'W' + yasic.fSpecial  ;["']                                   [:quote:]
+  yasic.sMathematical                   =                                       'X' + yasic.fSpecial  ;[!#$%&*+-./:<=>?@\\^_|~]               [:math:]
+  yasic.sBrackets                       =                                       'Y' + yasic.fSpecial  ;[<{[()]}>]                             [:bracket:]
+  yasic.sAny                            =                                       'Z' + yasic.fSpecial  ;[.]                                    [:any:]     .
+  yasic.sNoCaseA                        =                                       'a' + yasic.fSpecial  ;[Aa]
+  yasic.sNoCaseB                        =                                       'b' + yasic.fSpecial  ;[Bb]
+  yasic.sNoCaseC                        =                                       'c' + yasic.fSpecial  ;[Cc]
+  yasic.sNoCaseD                        =                                       'd' + yasic.fSpecial  ;[Dd]
+  yasic.sNoCaseE                        =                                       'e' + yasic.fSpecial  ;[Ee]
+  yasic.sNoCaseF                        =                                       'f' + yasic.fSpecial  ;[Ff]
+  yasic.sNoCaseG                        =                                       'g' + yasic.fSpecial  ;[Gg]
+  yasic.sNoCaseH                        =                                       'h' + yasic.fSpecial  ;[Hh]
+  yasic.sNoCaseI                        =                                       'i' + yasic.fSpecial  ;[Ii]
+  yasic.sNoCaseJ                        =                                       'j' + yasic.fSpecial  ;[Jj]
+  yasic.sNoCaseK                        =                                       'k' + yasic.fSpecial  ;[Kk]
+  yasic.sNoCaseL                        =                                       'l' + yasic.fSpecial  ;[Ll]
+  yasic.sNoCaseM                        =                                       'm' + yasic.fSpecial  ;[Mm]
+  yasic.sNoCaseN                        =                                       'n' + yasic.fSpecial  ;[Nn]
+  yasic.sNoCaseO                        =                                       'o' + yasic.fSpecial  ;[Oo]
+  yasic.sNoCaseP                        =                                       'p' + yasic.fSpecial  ;[Pp]
+  yasic.sNoCaseQ                        =                                       'q' + yasic.fSpecial  ;[Qq]
+  yasic.sNoCaseR                        =                                       'r' + yasic.fSpecial  ;[Rr]
+  yasic.sNoCaseS                        =                                       's' + yasic.fSpecial  ;[Ss]
+  yasic.sNoCaseT                        =                                       't' + yasic.fSpecial  ;[Tt]
+  yasic.sNoCaseU                        =                                       'u' + yasic.fSpecial  ;[Uu]
+  yasic.sNoCaseV                        =                                       'v' + yasic.fSpecial  ;[Vv]
+  yasic.sNoCaseW                        =                                       'w' + yasic.fSpecial  ;[Ww]
+  yasic.sNoCaseX                        =                                       'x' + yasic.fSpecial  ;[Xx]
+  yasic.sNoCaseY                        =                                       'y' + yasic.fSpecial  ;[Yy]
+  yasic.sNoCaseZ                        =                                       'z' + yasic.fSpecial  ;[Zz]
+;}
+;( sources )
+;{
+  ;unused
+  yasic.src.txt.ascii                   =                                       0x0000
+  yasic.src.txt.utf8                    =                                       0x0001
+  yasic.src.png                         =                                       0x0002
+  yasic.src.maximum                     =                                       0x0001
+;}
+;( types )
+;{
+  yasic.tVoid                           =                                       0x00                                    ; qword               dword               type                word
+  yasic.tString                         =                                       0x01                                    ; chars:string        size                <string>            -
+  yasic.tValue                          =                                       0x02                                    ; value               -                   <value>             -
+  yasic.tFunction                       =                                       0x03                                    ; chars:definition    size                <macro>             -
+
+  yasic.tSigned                         =                                       0x80
+  yasic.tUnsigned                       =                                       null
+  yasic.tResv                           =                                       0x40
+  yasic.tData                           =                                       null
+  yasic.tLocal                          =                                       0x20                                    ; ?                   ?                   <type+local>        stack.ctr
+  yasic.tGlobal                         =                                       null                                    ; ?                   ?                   <type+global>       -
+
+  yasic.tError                          =                                       0xff
+;}
+;(t|s?(b|w|d|q))
+;( variables )
+;{
+  yasic.vByte                           =                                       0x01
+  yasic.vWord                           =                                       0x02
+  yasic.vChar                           =                                       0x03
+  yasic.vDWord                          =                                       0x04
+  yasic.vText                           =                                       0x05
+  yasic.vPointer                        =                                       0x06
+  yasic.vQWord                          =                                       0x08
+;}

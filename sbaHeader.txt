@@ -1,0 +1,9 @@
+#a=_sivizius
+#b=ascii\\n
+#c=2016-02-10_17:21:05_UTC+0100
+#d=2016-09-15_12:11:35
+#f=/sba/out/yasic.log
+#l=bash/en
+#p=/sba/doc/licenses/LICENCE.txt
+#t=yet another symbolic instruction code
+#v=0.9.1.0-»Amanita muscaria«

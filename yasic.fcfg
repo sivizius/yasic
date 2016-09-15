@@ -1,0 +1,18 @@
+format binary
+use64
+
+include 'libs/main.fasm'
+
+xstat 'main'
+stat 'constants'
+stat 'parser'
+
+yasic.OpEcho                            equ                                     'echo_put'                              ;execute <this> to echo strings
+yasic.GetChar                           equ                                     'qword [ files.getUTF8 ]'               ;call <this> to get next character
+yasic.IndirectString                    equ                                     true                                    ;refere strings as »[ <string> ]« if true and as »<string>« if false
+yasic.Symbol                            equ                                     '->'                                    ;data-type of strings (»symbol«, »db«, etc.)
+yasic.TheChar                           equ                                     'rax'                                   ;variable with character (»rax«, »qword [ char ]«, »my_char«, etc.)
+yasic.MagicNumbers                      equ                                     false                                   ;if true, constants are replaced by their values
+yasic.Depth                             equ                                     0
+yasic.FailCookies                       equ                                     '_start.failCookies'
+yasic_parse                             'code/yasic.sba'

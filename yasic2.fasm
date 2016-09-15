@@ -1,0 +1,45 @@
+format                                  binary
+__debug__                               fix                                     true
+;__debug__                               fix                                     false
+__tmp2__                                fix                                     r12
+__cookies__                             fix                                     r13
+__tmp3__                                fix                                     r13
+__yentry__                              fix                                     r14
+__elder__                               fix                                     r14
+__tmp4__                                fix                                     r14
+__page__                                fix                                     r15
+__file__                                fix                                     r15
+__tmp5__                                fix                                     r15
+
+;( import )
+;{
+  include                               '%SBA_HOME%lib/includes/linux64/main.fasm'
+  xstat                                 'main'
+  xstat                                 'on'
+  xstat                                 'yapter'
+  xlib                                  'yapic'
+  ;stat                                  'cookies'
+  ;stat                                  'entities'
+  ;xlib                                  'buffers'
+  ;xlib                                  'echo'
+;}
+
+hash.index                              =                                       0
+hash.sasha0_rijndael                    =                                       1
+hash.really_bad_hash                    =                                       2
+hash.final                              =                                       2
+
+sbaExec64                               'sbaHeader.txt'
+sbaCode
+{
+  code                                  'main'
+}
+sbaBuffers
+{
+  text                                  'main'
+}
+sbaLibrary                              'yapic'
+sbaInterface
+{
+  assign  compile                        ->                                      'compile'
+}
