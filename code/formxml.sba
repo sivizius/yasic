@@ -1,0 +1,88 @@
+#!sba:yasic
+
+lookfortag
+{
+  '\<'
+  { 
+    'form' { jump('foundform'); }
+    jump('endoftag')
+  }
+  jump('lookfortag')
+}
+endoftag
+{
+  '\>' { jump('lookfortag'); }
+  jump('endoftag')
+}
+foundform
+{
+  '\>' { jump('lookforinput'); }
+  jump('foundform')
+}
+lookforinput
+{
+  '\<'
+  {
+    'input ' { jump('parseinput'); }
+    '/form' { jump('finally'); }
+    jump('foundform')
+  }
+  jump('lookforinput')
+}
+parseinput
+{
+  '<space>' { jump('parseinput'); }
+  'type'
+  {
+    call('getvalue')
+    #do stuff with type
+    'hidden'
+    {
+      #its a hidden value
+    }
+    #save type
+  }
+  'name'
+  {
+    call('getvalue')
+    new_symbol(char)
+    call('readvalue')
+    #save name
+  }
+  'value'
+  {
+    call('getvalue')
+    new_symbol(char)
+    call('readvalue')
+    #save value
+  }
+  '\>'
+  {
+    #now you have type, name and value of this element
+    jump('lookforinput')
+  }
+}
+getvalue
+{
+  '<space>' { jump('getvalue'); }
+  '=' { jump('parsevalue'); }
+}
+parsevalue
+{
+  '<space>' { jump('parsevalue'); }
+  '\Q' { return(); }
+}
+readvalue
+{
+  '\Q'
+  {
+    end_symbol()
+    return()
+  }
+  add_symbol(char)
+  jump('readvalue')
+}
+finally
+{
+  echo('we are done!')
+}
