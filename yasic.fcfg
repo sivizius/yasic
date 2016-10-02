@@ -15,4 +15,4 @@ yasic.TheChar                           equ                                     
 yasic.MagicNumbers                      equ                                     false                                   ;if true, constants are replaced by their values
 yasic.Depth                             equ                                     0
 yasic.FailCookies                       equ                                     '_start.failCookies'
-yasic_parse                             'code/yasic.sba'
+yasic_parse                             'code/formxml.sba'

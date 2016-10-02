@@ -3,7 +3,7 @@
 lookfortag
 {
   '\<'
-  { 
+  {
     'form' { jump('foundform'); }
     jump('endoftag')
   }
@@ -45,15 +45,11 @@ parseinput
   'name'
   {
     call('getvalue')
-    new_symbol(char)
-    call('readvalue')
     #save name
   }
   'value'
   {
     call('getvalue')
-    new_symbol(char)
-    call('readvalue')
     #save value
   }
   '\>'
@@ -70,7 +66,13 @@ getvalue
 parsevalue
 {
   '<space>' { jump('parsevalue'); }
+  '\Q' { jump('readvalueA'); }
+}
+readvalueA
+{
   '\Q' { return(); }
+  new_symbol()
+  jump('readvalue')
 }
 readvalue
 {
@@ -79,7 +81,7 @@ readvalue
     end_symbol()
     return()
   }
-  add_symbol(char)
+  add_symbol()
   jump('readvalue')
 }
 finally
